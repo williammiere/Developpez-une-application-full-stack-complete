@@ -1,0 +1,53 @@
+CREATE DATABASE IF NOT EXISTS `mdd`;
+USE `mdd`;
+
+CREATE TABLE `USERS` (
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `admin` BOOLEAN NOT NULL DEFAULT false,
+  `email` VARCHAR(255) NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE `THEMES`(
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `title` VARCHAR(255),
+  `description` TEXT
+);
+
+CREATE TABLE `USER_THEMES`(
+  `user_id` INT,
+  `theme_id` INT,
+  PRIMARY KEY (user_id, theme_id),
+  FOREIGN KEY (`user_id`) REFERENCES `USERS` (`id`),
+  FOREIGN KEY (`theme_id`) REFERENCES `THEMES` (`id`)
+);
+
+CREATE TABLE `ARTICLES`(
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `title` VARCHAR(255) NOT NULL,
+  `user_id` INT,
+  `content` TEXT NOT NULL,
+  `theme_id` INT,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (`theme_id`) REFERENCES `THEMES` (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `USERS` (`id`)
+);
+
+CREATE TABLE `COMMENTS`(
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `content` TEXT NOT NULL,
+  `user_id` INT,
+  `article_id` INT,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (`user_id`) REFERENCES `USERS` (`id`),
+  FOREIGN KEY (`article_id`) REFERENCES `ARTICLES` (`id`)
+);
+
+INSERT INTO USERS (name, admin, email, password)
+VALUES ('User', true, 'test@gmail.com', '$2a$10$.Hsa/ZjUVaHqi0tp9xieMeewrnZxrZ5pQRzddUXE/WjDu2ZThe6Iq'); 
+
