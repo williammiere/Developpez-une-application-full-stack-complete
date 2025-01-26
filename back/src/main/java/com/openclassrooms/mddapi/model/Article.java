@@ -34,7 +34,8 @@ public class Article {
   @NotNull
   private String title;
 
-  @Column(name = "theme_id")
+  @ManyToOne
+  @JoinColumn(name="theme_id")
   private Theme theme;
 
   @Column(name = "content")

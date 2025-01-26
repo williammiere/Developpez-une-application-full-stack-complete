@@ -19,7 +19,7 @@ public class Theme {
   @Column(name = "id")
   private int id;
 
-  @Column(name = "title")
+  @Column(name = "title", length=255)
   @NotNull
   private String title;
 
