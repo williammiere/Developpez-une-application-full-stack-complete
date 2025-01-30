@@ -19,4 +19,16 @@ public class UserMapper {
     userDTO.setUpdated_at(user.getUpdated_at());
     return userDTO;
   }
+
+  public User toUser(UserDTO userDTO) {
+    User user = new User();
+    user.setId(userDTO.getId());
+    user.setName(userDTO.getName());
+    user.setPassword(userDTO.getPassword());
+    user.setEmail(userDTO.getEmail());
+    user.setAdmin(userDTO.isAdmin());
+    user.setCreated_at(userDTO.getCreated_at());
+    user.setUpdated_at(userDTO.getUpdated_at());
+    return user;
+  }
 }

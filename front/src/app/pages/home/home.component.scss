@@ -1,7 +1,24 @@
 .center {
-  height: 100vh;
+  height: 70vh;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+.buttons{
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  min-width: 10%;
+  justify-content: space-around;
+}
+
+.buttons button{
+  height: 50px;
+  width: 200px;
+  font-size: large;
+  border-color: black;
+  border-radius: 15px;
 }

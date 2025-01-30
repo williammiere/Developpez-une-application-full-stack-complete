@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class UserAuthResponseDTO {
   private int id;
-  private String name;
+  private String username;
   private String email;
   private boolean admin;
   private LocalDateTime created_at;

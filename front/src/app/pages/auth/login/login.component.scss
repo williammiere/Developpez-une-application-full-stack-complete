@@ -1,0 +1,33 @@
+.header{
+    display: flex;
+    height: 15vh;
+}
+
+.back{
+    margin-left: 35px;
+}
+
+img{
+    cursor: pointer;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+button{
+    height: 50px;
+    width: 200px;
+    font-size: large;
+    color: white;
+    background-color: rgb(136, 0, 226);
+    border-color: black;
+    border-radius: 15px;
+  }
+
+  .error {
+    color: red;
+  }

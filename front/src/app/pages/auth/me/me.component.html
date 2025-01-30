@@ -1,0 +1,17 @@
+<app-header></app-header>
+<div class="profile">
+    <div class="form" [formGroup]="form">
+        <h1><strong>Profil utilisateur</strong></h1>
+        <mat-form-field appearance="outline">
+            <mat-label>Nom d'utilisateur</mat-label>
+            <input matNativeControl placeholder={{user?.username}} formControlName="username" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matNativeControl placeholder={{user?.email}} formControlName="email" />
+        </mat-form-field>
+        <button mat-stroked-button (click)="submit()">Sauvegarder</button>
+        <span *ngIf="onError" class="error ml2">{{onError}}</span>
+        <button mat-stroked-button (click)="logOut()">Se déconnecter</button>
+    </div>
+</div>

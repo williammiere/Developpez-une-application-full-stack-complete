@@ -3,17 +3,17 @@ USE `mdd`;
 
 CREATE TABLE `USERS` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL,
+  `name` VARCHAR(20) NOT NULL CHECK (LENGTH(`name`) >= 3),
   `admin` BOOLEAN NOT NULL DEFAULT false,
   `email` VARCHAR(255) NOT NULL,
-  `password` VARCHAR(255) NOT NULL,
+  `password` VARCHAR(255) NOT NULL CHECK (LENGTH(`password`) >= 8),
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE `THEMES`(
   `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `title` VARCHAR(255),
+  `title` VARCHAR(255) CHECK (LENGTH(`title`) >= 3),
   `description` TEXT
 );
 
@@ -27,7 +27,7 @@ CREATE TABLE `USER_THEMES`(
 
 CREATE TABLE `ARTICLES`(
   `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `title` VARCHAR(255) NOT NULL,
+  `title` VARCHAR(255) NOT NULL CHECK (LENGTH(`title`) >= 3),
   `user_id` INT,
   `content` TEXT NOT NULL,
   `theme_id` INT,
@@ -39,7 +39,7 @@ CREATE TABLE `ARTICLES`(
 
 CREATE TABLE `COMMENTS`(
   `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `content` TEXT NOT NULL,
+  `content` TEXT NOT NULL CHECK (LENGTH(`content`) >= 1),
   `user_id` INT,
   `article_id` INT,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

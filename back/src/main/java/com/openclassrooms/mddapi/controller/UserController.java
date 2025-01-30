@@ -27,81 +27,110 @@ import jakarta.validation.Valid;
 @RequestMapping("api")
 public class UserController {
 
-  @Autowired
-  private UserService userService;
+    @Autowired
+    private UserService userService;
 
-  @Autowired
-  private UserMapper userMapper;
+    @Autowired
+    private UserMapper userMapper;
 
-  @Operation(summary = "Get user by id")
-  @ApiResponses(value = {
-          @ApiResponse(responseCode = "200", description = "User found"),
-          @ApiResponse(responseCode = "404", description = "User not found")
-  })
-  @GetMapping("/user/{id}")
-  public ResponseEntity<UserAuthResponseDTO> getUser(@PathVariable int id) {
+    @Operation(summary = "Get user by id")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "User found"),
+        @ApiResponse(responseCode = "404", description = "User not found")
+    })
+    @GetMapping("/user/{id}")
+    public ResponseEntity<UserAuthResponseDTO> getUser(@PathVariable int id) {
 
-    UserDTO user = userMapper.toUserDTO(userService.findById(id));
+        UserDTO user = userMapper.toUserDTO(userService.findById(id));
 
-    UserAuthResponseDTO userResponse = new UserAuthResponseDTO();
-    userResponse.setId(user.getId());
-    userResponse.setEmail(user.getEmail());
-    userResponse.setName(user.getName());
-    userResponse.setCreated_at(user.getCreated_at());
-    userResponse.setUpdated_at(user.getUpdated_at());
-    
-      return ResponseEntity.ok(userResponse);
-  }
+        UserAuthResponseDTO userResponse = new UserAuthResponseDTO();
+        userResponse.setId(user.getId());
+        userResponse.setEmail(user.getEmail());
+        userResponse.setUsername(user.getName());
+        userResponse.setCreated_at(user.getCreated_at());
+        userResponse.setUpdated_at(user.getUpdated_at());
 
-  @Operation(summary = "Register a new user", description = "Register a new user with email, name and password and send back a JWT token")
-  @ApiResponses(value = {
-          @ApiResponse(responseCode = "200", description = "User registered"),
-          @ApiResponse(responseCode = "400", description = "Bad request")
-  })
-  @PostMapping("/auth/register")
-  public ResponseEntity<TokenResponseDTO> register(
-          @Valid @RequestBody SingupRequestDTO singupRequestDTO) {
+        return ResponseEntity.ok(userResponse);
+    }
 
-      String jwtToken = userService.register(singupRequestDTO.getEmail(), singupRequestDTO.getName(), singupRequestDTO.getPassword());
-      TokenResponseDTO tokenResponseDTO = new TokenResponseDTO();
-      tokenResponseDTO.setToken(jwtToken);
-      return ResponseEntity.ok(tokenResponseDTO);
-  }
+    @Operation(summary = "Register a new user", description = "Register a new user with email, name and password and send back a JWT token")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "User registered"),
+        @ApiResponse(responseCode = "400", description = "Bad request")
+    })
+    @PostMapping("/auth/register")
+    public ResponseEntity<TokenResponseDTO> register(
+            @Valid @RequestBody SingupRequestDTO singupRequestDTO) {
+        String jwtToken = userService.register(singupRequestDTO.getEmail(), singupRequestDTO.getUsername(), singupRequestDTO.getPassword());
+        TokenResponseDTO tokenResponseDTO = new TokenResponseDTO();
+        tokenResponseDTO.setToken(jwtToken);
+        tokenResponseDTO.setEmail(singupRequestDTO.getEmail());
+        tokenResponseDTO.setUsername(userService.findByEmail(singupRequestDTO.getEmail()).getName());
+        tokenResponseDTO.setId(userService.findByEmail(singupRequestDTO.getEmail()).getId());
+        tokenResponseDTO.setAdmin(userService.findByEmail(singupRequestDTO.getEmail()).isAdmin());
+        return ResponseEntity.ok(tokenResponseDTO);
+    }
 
-  @Operation(summary = "Login a user", description = "Login a user with email and password and send back a JWT token")
-  @ApiResponses(value = {
-          @ApiResponse(responseCode = "200", description = "User logged in"),
-          @ApiResponse(responseCode = "400", description = "Bad request")
-  })
-  @PostMapping("/auth/login")
-  public ResponseEntity<TokenResponseDTO> login(
-          @Valid @RequestBody LoginRequestDTO loginRequestDTO) {
+    @Operation(summary = "Login a user", description = "Login a user with email and password and send back a JWT token")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "User logged in"),
+        @ApiResponse(responseCode = "400", description = "Bad request")
+    })
+    @PostMapping("/auth/login")
+    public ResponseEntity<TokenResponseDTO> login(
+            @Valid @RequestBody LoginRequestDTO loginRequestDTO) {
 
-      String jwtToken = userService.login(loginRequestDTO.getEmail(), loginRequestDTO.getPassword());
-      TokenResponseDTO tokenResponseDTO = new TokenResponseDTO();
-      tokenResponseDTO.setToken(jwtToken);
-      return ResponseEntity.ok(tokenResponseDTO);
-  }
+        String jwtToken = userService.login(loginRequestDTO.getEmail(), loginRequestDTO.getPassword());
+        TokenResponseDTO tokenResponseDTO = new TokenResponseDTO();
+        tokenResponseDTO.setToken(jwtToken);
+        tokenResponseDTO.setEmail(loginRequestDTO.getEmail());
+        tokenResponseDTO.setUsername(userService.findByEmail(loginRequestDTO.getEmail()).getName());
+        tokenResponseDTO.setId(userService.findByEmail(loginRequestDTO.getEmail()).getId());
+        tokenResponseDTO.setAdmin(userService.findByEmail(loginRequestDTO.getEmail()).isAdmin());
+        return ResponseEntity.ok(tokenResponseDTO);
+    }
 
-  @Operation(summary = "Get the current user")
-  @ApiResponses(value = {
-          @ApiResponse(responseCode = "200", description = "User found"),
-          @ApiResponse(responseCode = "404", description = "User not found")
-  })
-  @GetMapping("/auth/me")
-  public ResponseEntity<UserAuthResponseDTO> me() {
-    String email = SecurityContextHolder.getContext().getAuthentication().getName();
-    UserDTO user = userMapper.toUserDTO(userService.findByEmail(email));
+    @Operation(summary = "Get the current user")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "User found"),
+        @ApiResponse(responseCode = "404", description = "User not found")
+    })
+    @GetMapping("/auth/me")
+    public ResponseEntity<UserAuthResponseDTO> me() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserDTO user = userMapper.toUserDTO(userService.findByEmail(email));
 
-    UserAuthResponseDTO userResponse = new UserAuthResponseDTO();
-    userResponse.setId(user.getId());
-    userResponse.setEmail(email);
-    userResponse.setName(user.getName());
-    userResponse.setCreated_at(user.getCreated_at());
-    userResponse.setUpdated_at(user.getUpdated_at());
+        UserAuthResponseDTO userResponse = new UserAuthResponseDTO();
+        userResponse.setId(user.getId());
+        userResponse.setEmail(email);
+        userResponse.setUsername(user.getName());
+        userResponse.setCreated_at(user.getCreated_at());
+        userResponse.setUpdated_at(user.getUpdated_at());
 
-    return ResponseEntity.ok(userResponse);
+        return ResponseEntity.ok(userResponse);
 
-  }
+    }
+
+    @Operation(summary = "Update email and username")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "User updated"),
+        @ApiResponse(responseCode = "400", description = "Bad request")
+    })
+    @PostMapping("/auth/update")
+    public ResponseEntity<UserAuthResponseDTO> update(
+            @Valid @RequestBody SingupRequestDTO singupRequestDTO) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserDTO user = userMapper.toUserDTO(userService.findByEmail(email));
+        user.setEmail(singupRequestDTO.getEmail());
+        user.setName(singupRequestDTO.getUsername());
+        userService.save(userMapper.toUser(user));
+        UserAuthResponseDTO userResponse = new UserAuthResponseDTO();
+        userResponse.setId(user.getId());
+        userResponse.setEmail(user.getEmail());
+        userResponse.setUsername(user.getName());
+        userResponse.setCreated_at(user.getCreated_at());
+        userResponse.setUpdated_at(user.getUpdated_at());
+        return ResponseEntity.ok(userResponse);
+    }
 
 }

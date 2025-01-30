@@ -27,9 +27,9 @@ public class UserService {
   private PasswordEncoder passwordEncoder;
 
   public String register(String email, String name, String password) {
-    User existingUser = userRepository.findByEmail(email);
+    User existingEmail = userRepository.findByEmail(email);
 
-    if (existingUser != null) {
+    if (existingEmail != null) {
       throw new IllegalArgumentException("Email already exists");
     }
 
