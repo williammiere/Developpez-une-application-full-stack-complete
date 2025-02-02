@@ -45,7 +45,6 @@ export class LoginComponent{
     const loginRequest = this.form.value as LoginRequest;
     this.authService.login(loginRequest).subscribe({
       next: (response: SessionInformation) => {
-        localStorage.setItem('token', response.token);
         this.sessionService.logIn(response);
         this.router.navigate(['/me']);
       },

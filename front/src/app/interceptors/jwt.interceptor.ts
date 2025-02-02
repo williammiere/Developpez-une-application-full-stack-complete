@@ -7,7 +7,7 @@ export class JwtInterceptor implements HttpInterceptor {
   constructor(private sessionService: SessionService) {}
 
   public intercept(request: HttpRequest<any>, next: HttpHandler) {
-    const token = localStorage.getItem('token');
+    const token = JSON.parse(localStorage.getItem('session') || "{}")?.token;
     if (token) {
       request = request.clone({
         setHeaders: {

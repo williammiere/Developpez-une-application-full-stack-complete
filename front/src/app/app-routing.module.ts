@@ -9,12 +9,13 @@ import { ThemesListComponent } from './pages/themes-list/themes-list.component';
 import { ArticleComponent } from './pages/article/article.component';
 import { AuthGuard } from './guards/auth.guard';
 import { ArticleFormComponent } from './pages/article-form/article-form.component';
+import { UnauthGuard } from './guards/unauth.guard';
 
 // consider a guard combined with canLoad / canActivate route option
 // to manage unauthenticated user to access private routes
-const routes: Routes = [{ path: '', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent},
+const routes: Routes = [{ path: '', component: HomeComponent, canActivate: [UnauthGuard] },
+  { path: 'login', component: LoginComponent, canActivate: [UnauthGuard] },
+  { path: 'register', component: RegisterComponent, canActivate: [UnauthGuard] },
   { path: 'me', component: MeComponent, canActivate: [AuthGuard]},
   { path: 'articles', component: ArticlesListComponent, canActivate: [AuthGuard]},
   { path: 'themesList', component: ThemesListComponent, canActivate: [AuthGuard]},

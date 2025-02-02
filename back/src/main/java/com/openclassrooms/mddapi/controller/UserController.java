@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import com.openclassrooms.mddapi.dto.TokenResponseDTO;
 import com.openclassrooms.mddapi.dto.UserAuthResponseDTO;
 import com.openclassrooms.mddapi.dto.UserDTO;
 import com.openclassrooms.mddapi.modelMapper.UserMapper;
+import com.openclassrooms.mddapi.service.JwtService;
 import com.openclassrooms.mddapi.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,6 +31,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private JwtService jwtService;
 
     @Autowired
     private UserMapper userMapper;
@@ -116,20 +121,19 @@ public class UserController {
         @ApiResponse(responseCode = "200", description = "User updated"),
         @ApiResponse(responseCode = "400", description = "Bad request")
     })
-    @PostMapping("/auth/update")
-    public ResponseEntity<UserAuthResponseDTO> update(
+    @PutMapping("/auth/update")
+    public ResponseEntity<TokenResponseDTO> update(
             @Valid @RequestBody SingupRequestDTO singupRequestDTO) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         UserDTO user = userMapper.toUserDTO(userService.findByEmail(email));
         user.setEmail(singupRequestDTO.getEmail());
         user.setName(singupRequestDTO.getUsername());
         userService.save(userMapper.toUser(user));
-        UserAuthResponseDTO userResponse = new UserAuthResponseDTO();
+        TokenResponseDTO userResponse = new TokenResponseDTO();
         userResponse.setId(user.getId());
         userResponse.setEmail(user.getEmail());
         userResponse.setUsername(user.getName());
-        userResponse.setCreated_at(user.getCreated_at());
-        userResponse.setUpdated_at(user.getUpdated_at());
+        userResponse.setToken(jwtService.generateToken(user.getEmail()));
         return ResponseEntity.ok(userResponse);
     }
 

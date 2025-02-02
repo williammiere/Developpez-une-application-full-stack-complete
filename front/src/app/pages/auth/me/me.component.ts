@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SessionInformation } from 'src/app/interfaces/sessionInformation.interface';
 import { UpdateRequest } from 'src/app/interfaces/updateRequest';
 import { AuthService } from 'src/app/services/auth.service';
 import { SessionService } from 'src/app/services/session.service';
@@ -32,19 +33,21 @@ export class MeComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.minLength(8)
+          Validators.minLength(3)
         ]
       ]
     });
 
   ngOnInit(): void {
+    this.form.patchValue(this.user ?? {});
   }
 
   submit() {
     if(this.form.valid) {
     const updateRequest = this.form.value as UpdateRequest;
     this.authService.update(updateRequest).subscribe({
-      next: () => {
+      next: (response: SessionInformation) => {
+        this.sessionService.update(response);
         window.location.reload();
       },
       error: error => this.onError = error.error,

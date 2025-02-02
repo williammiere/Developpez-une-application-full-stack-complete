@@ -24,7 +24,7 @@ export class AuthService {
     return this.httpClient.post<SessionInformation>(`${this.pathService}/login`, loginRequest);
   }
 
-  public update(updateRequest: UpdateRequest): Observable<void> {
-    return this.httpClient.put<void>(`${this.pathService}/update`, updateRequest);
+  public update(updateRequest: UpdateRequest): Observable<SessionInformation> {
+    return this.httpClient.put<SessionInformation>(`${this.pathService}/update`, updateRequest);
   }
 }
