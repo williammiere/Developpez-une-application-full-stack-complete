@@ -13,7 +13,7 @@ CREATE TABLE `USERS` (
 
 CREATE TABLE `THEMES`(
   `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `title` VARCHAR(255) CHECK (LENGTH(`title`) >= 3),
+  `title` VARCHAR(255) NOT NULL CHECK (LENGTH(`title`) >= 1),
   `description` TEXT
 );
 
@@ -27,7 +27,7 @@ CREATE TABLE `USER_THEMES`(
 
 CREATE TABLE `ARTICLES`(
   `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `title` VARCHAR(255) NOT NULL CHECK (LENGTH(`title`) >= 3),
+  `title` VARCHAR(255) NOT NULL CHECK (LENGTH(`title`) >= 1),
   `user_id` INT,
   `content` TEXT NOT NULL,
   `theme_id` INT,

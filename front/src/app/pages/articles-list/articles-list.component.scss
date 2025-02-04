@@ -1,0 +1,16 @@
+button{
+    height: 50px;
+    width: 200px;
+    font-size: large;
+    color: white;
+    background-color: rgb(136, 0, 226);
+    border-color: black;
+    border-radius: 15px;
+}
+
+.articleList{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 20px;
+}

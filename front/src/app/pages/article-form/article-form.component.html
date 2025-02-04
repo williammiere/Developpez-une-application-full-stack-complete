@@ -1,1 +1,18 @@
-<p>article-form works!</p>
+<app-header></app-header>
+<div class="back">
+    <img src="/assets/arrow_back.svg" alt="logo" (click)="back()" />
+</div>
+<div class="form" [formGroup]="form">
+    <h1>Créer un nouvel article</h1>
+    <mat-form-field appearance="outline">
+        <input matNativeControl placeholder="Séléctionner un thème" formControlName="theme" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <input matNativeControl placeholder="Titre de l'article" formControlName="title" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <input class="content" matNativeControl placeholder="Contenu de l'article" formControlName="content" />
+    </mat-form-field>
+    <button mat-stroked-button (click)="submit()">Créer</button>
+    <span *ngIf="onError" class="error ml2">{{onError}}</span>
+</div>

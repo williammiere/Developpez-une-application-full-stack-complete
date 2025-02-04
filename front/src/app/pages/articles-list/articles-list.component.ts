@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { articleService } from 'src/app/services/article.service';
+import { Article } from 'src/app/interfaces/article.interface';
 
 @Component({
   selector: 'app-articles-list',
@@ -7,9 +10,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ArticlesListComponent implements OnInit {
 
-  constructor() { }
+  protected articles: Article[] = [];
+
+  constructor(private router: Router, private articleService: articleService) { }
 
   ngOnInit(): void {
+    this.articleService.getAll().subscribe((data) => {
+      this.articles = data;
+    });
   }
 
+  create(){
+    this.router.navigate(['/articleForm']);
+  }
+
+  openArticle(article: Article){
+    this.router.navigate(['/article/'+article.id]);
+  }
 }

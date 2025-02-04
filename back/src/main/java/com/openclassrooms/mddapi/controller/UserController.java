@@ -126,7 +126,12 @@ public class UserController {
             @Valid @RequestBody SingupRequestDTO singupRequestDTO) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         UserDTO user = userMapper.toUserDTO(userService.findByEmail(email));
-        user.setEmail(singupRequestDTO.getEmail());
+        if(!singupRequestDTO.getEmail().equals(user.getEmail())) {
+            if(userService.findByEmail(singupRequestDTO.getEmail()) != null) {
+                throw new IllegalArgumentException("Email already exists");
+            }
+            user.setEmail(singupRequestDTO.getEmail());
+        }
         user.setName(singupRequestDTO.getUsername());
         userService.save(userMapper.toUser(user));
         TokenResponseDTO userResponse = new TokenResponseDTO();

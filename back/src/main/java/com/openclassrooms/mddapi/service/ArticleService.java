@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.mddapi.model.Article;
+import com.openclassrooms.mddapi.model.Theme;
 import com.openclassrooms.mddapi.repository.ArticleRepository;
+import com.openclassrooms.mddapi.repository.ThemeRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -16,6 +18,9 @@ public class ArticleService {
 
     @Autowired
     private ArticleRepository articleRepository;
+
+    @Autowired
+    private ThemeRepository themeRepository;
 
     @Autowired
     private UserService userService;
@@ -30,11 +35,23 @@ public class ArticleService {
         return article;
     }
 
-    public Article createArticle(int user_id, String title, String content) throws IOException {
+    public Article createArticle(int user_id, String title, String content, String theme) throws IOException {
         Article article = new Article();
         article.setUser(userService.findById(user_id));
         article.setTitle(title);
         article.setContent(content);
+        
+        if(themeRepository.findByTitle(theme) == null) {
+            Theme newTheme = new Theme();
+            newTheme.setTitle(theme);
+            newTheme.setDescription(theme);
+            themeRepository.save(newTheme);
+            article.setTheme(newTheme);
+        }else{
+            article.setTheme(themeRepository.findByTitle(theme));
+        }
+
+
         return articleRepository.save(article);
     }
 

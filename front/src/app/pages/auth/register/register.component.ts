@@ -41,7 +41,8 @@ export class RegisterComponent {
 
   constructor(private router: Router,
     private fb: FormBuilder,
-    private authService: AuthService)
+    private authService: AuthService,
+    private sessionService: SessionService)
  {}
 
   back() {
@@ -59,8 +60,8 @@ export class RegisterComponent {
       const registerRequest = this.form.value as RegisterRequest;
       this.authService.register(registerRequest).subscribe({
       next: (response: SessionInformation) => {
-        this.router.navigate(['/login']);
-        localStorage.setItem('token', response.token);
+        this.sessionService.logIn(response);
+        this.router.navigate(['/me']);
       },
       error: (error) => {
         this.onError = error.error;

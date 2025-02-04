@@ -12,7 +12,7 @@ public class ArticleDTO {
   @NotBlank
   private int user_id;
   @NotBlank
-  private int theme_id;
+  private String theme_id;
   @NotBlank
   private String title;
   @NotBlank

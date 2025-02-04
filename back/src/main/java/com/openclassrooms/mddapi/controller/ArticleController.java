@@ -53,33 +53,36 @@ public class ArticleController {
 
     ArticleDTO articleDTO = articleMapper.toArticleDTO(articleService.findById(id));
     return ResponseEntity.ok(articleDTO);
-  }
+    }
 
-  @Operation(summary = "Get all article")
-  @ApiResponses(value = {
-          @ApiResponse(responseCode = "200", description = "Articles found"),
-          @ApiResponse(responseCode = "404", description = "No article found")
-  })
-  @GetMapping("/article")
-  public ResponseEntity<ArticleResponseDTO> getArticles() {
+    @Operation(summary = "Get all article")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Articles found"),
+        @ApiResponse(responseCode = "404", description = "No article found")
+    })
+    @GetMapping("/articles")
+    public ResponseEntity<ArticleResponseDTO> getArticles() {
 
     ArticleResponseDTO articleResponseDTO = new ArticleResponseDTO();
-    ArticleDTO[] article = articleMapper.toListArticleDTO(articleService.findAll());
-    articleResponseDTO.setArticles(article);
+    ArticleDTO[] articles = articleMapper.toListArticleDTO(articleService.findAll());
+    if (articles == null) {
+      articles = new ArticleDTO[0];
+    }
+    articleResponseDTO.setArticles(articles);
     return ResponseEntity.ok(articleResponseDTO);
-  }
-  
-  @Operation(summary = "Create a new article")
-  @ApiResponses(value = {
-          @ApiResponse(responseCode = "200", description = "Article created"),
-          @ApiResponse(responseCode = "400", description = "Bad request")
-  })
-  @PostMapping("/article")
-  public ResponseEntity<ArticleDTO> createArticle(@Valid @ModelAttribute CreateArticleDTO createArticleDTO) throws IOException {
+    }
+    
+    @Operation(summary = "Create a new article")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Article created"),
+        @ApiResponse(responseCode = "400", description = "Bad request")
+    })
+    @PostMapping("/article/create")
+    public ResponseEntity<ArticleDTO> createArticle(@Valid @ModelAttribute CreateArticleDTO createArticleDTO) throws IOException {
 
     UserDTO user = userMapper.toUserDTO(userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()));
 
-    ArticleDTO article = articleMapper.toArticleDTO(articleService.createArticle(user.getId(), createArticleDTO.getTitle(), createArticleDTO.getContent()));
+    ArticleDTO article = articleMapper.toArticleDTO(articleService.createArticle(user.getId(), createArticleDTO.getTitle(), createArticleDTO.getContent(), createArticleDTO.getTheme()));
     return ResponseEntity.ok(article);
 
   }
