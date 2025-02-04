@@ -1,10 +1,10 @@
 <app-header></app-header>
 <button mat-stroked-button (click)="create()">Créer un article</button>
 <div class="articleList">
-    <div class="article" *ngFor="let article of articles">
+    <div class="article" *ngFor="let article of articles" (click)="read(article)">
         <h2>{{ article.title }}</h2>
+        <h2>{{ article.author }}</h2>
         <p>{{ article.content }}</p>
-        <button mat-stroked-button (click)="openArticle(article)">Editer</button>
     </div>
     <h1 *ngIf="articles?.length === 0">Aucun article</h1>
 </div>

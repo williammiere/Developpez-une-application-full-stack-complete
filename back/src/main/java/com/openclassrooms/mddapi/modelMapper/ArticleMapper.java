@@ -13,9 +13,10 @@ public class ArticleMapper {
   public ArticleDTO toArticleDTO(Article article) {
     ArticleDTO articleDTO = new ArticleDTO();
     articleDTO.setId(article.getId());
-    articleDTO.setUser_id(article.getUser().getId());
+    articleDTO.setUser(article.getUser().getId());
     articleDTO.setTitle(article.getTitle());
     articleDTO.setContent(article.getContent());
+    articleDTO.setTheme(article.getTheme().getTitle());
     articleDTO.setCreated_at(article.getCreated_at());
     articleDTO.setUpdated_at(article.getUpdated_at());
     return articleDTO;

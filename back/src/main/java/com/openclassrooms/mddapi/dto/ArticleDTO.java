@@ -10,9 +10,9 @@ public class ArticleDTO {
   @NotBlank
   private int id;
   @NotBlank
-  private int user_id;
+  private int user;
   @NotBlank
-  private String theme_id;
+  private String theme;
   @NotBlank
   private String title;
   @NotBlank

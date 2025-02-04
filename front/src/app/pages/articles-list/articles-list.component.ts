@@ -15,8 +15,8 @@ export class ArticlesListComponent implements OnInit {
   constructor(private router: Router, private articleService: articleService) { }
 
   ngOnInit(): void {
-    this.articleService.getAll().subscribe((data) => {
-      this.articles = data;
+    this.articleService.getAll().subscribe((data: any) => {
+      this.articles = data.articles;
     });
   }
 
@@ -24,7 +24,7 @@ export class ArticlesListComponent implements OnInit {
     this.router.navigate(['/articleForm']);
   }
 
-  openArticle(article: Article){
+  read(article: Article){
     this.router.navigate(['/article/'+article.id]);
   }
 }
