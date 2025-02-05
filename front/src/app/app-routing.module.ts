@@ -18,7 +18,7 @@ const routes: Routes = [{ path: '', component: HomeComponent, canActivate: [Unau
   { path: 'register', component: RegisterComponent, canActivate: [UnauthGuard] },
   { path: 'me', component: MeComponent, canActivate: [AuthGuard]},
   { path: 'articles', component: ArticlesListComponent, canActivate: [AuthGuard]},
-  { path: 'themesList', component: ThemesListComponent, canActivate: [AuthGuard]},
+  { path: 'themes', component: ThemesListComponent, canActivate: [AuthGuard]},
   { path: 'article/:id', component: ArticleComponent, canActivate: [AuthGuard] },
   { path: 'articleForm', component: ArticleFormComponent, canActivate: [AuthGuard] },
 ];

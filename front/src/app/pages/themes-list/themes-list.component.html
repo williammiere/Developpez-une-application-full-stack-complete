@@ -1,1 +1,10 @@
-<p>themes-list works!</p>
+<app-header></app-header>
+<div class="articleList">
+    <div class="themes" *ngFor="let theme of themes">
+        <h2>{{ theme.name }}</h2>
+        <p>{{ theme.description }}</p>
+        <button *ngIf="!theme.subscribed" mat-stroked-button (click)="subscribe(theme)">S'abonner</button>
+        <button *ngIf="theme.subscribed" mat-stroked-button (click)="unsubscribe(theme)">Se désabonner</button>
+    </div>
+    <h1 *ngIf="themes?.length === 0">Aucun thème</h1>
+</div>

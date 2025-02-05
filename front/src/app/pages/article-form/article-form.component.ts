@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ArticleRequest } from 'src/app/interfaces/ArticleRequest.interface';
+import { ArticleRequest } from 'src/app/interfaces/articleRequest.interface';
 import { articleService } from 'src/app/services/article.service';
 import { SessionService } from 'src/app/services/session.service';
 
