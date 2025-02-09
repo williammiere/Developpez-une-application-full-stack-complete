@@ -22,6 +22,14 @@ public class CommentService {
   @Autowired
   private UserService userService;
 
+  public Iterable<Comment> getComments(int id) {
+    Iterable<Comment> comments = messageRepository.findAllByArticleId(id);
+    if (comments == null) {
+      throw new IllegalArgumentException("No comment found");
+    }
+    return comments;
+  }
+
   public Comment createComment(int article_id, int user_id, String content) {
     Article Article = ArticleService.findById(article_id);
     User user = userService.findById(user_id);

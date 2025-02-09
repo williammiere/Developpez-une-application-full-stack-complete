@@ -52,6 +52,10 @@ public class UserService {
   public String login(String email, String password) {
     User user = userRepository.findByEmail(email);
 
+    if(user == null) {
+      throw new IllegalArgumentException("User not found");
+    }
+
     if (!passwordEncoder.matches(password, user.getPassword())) {
       throw new IllegalArgumentException("Invalid credentials");
     }
@@ -69,13 +73,11 @@ public class UserService {
   }
 
   public User findById(int id) {
-    User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
-    return user;
+    return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
   }
 
   public User findByEmail(String email) {
-    User user = userRepository.findByEmail(email);
-    return user;
+    return userRepository.findByEmail(email);
   }
 
   public void deleteById(int id) {

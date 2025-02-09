@@ -1,3 +1,5 @@
 {
-    "java.compile.nullAnalysis.mode": "automatic"
+    "java.compile.nullAnalysis.mode": "automatic",
+    "jdk.jdkhome": "",
+    "jdk.project.jdkhome": "C:\Program Files\Eclipse Adoptium\jdk-21.0.6.7-hotspot\bin.exe"
 }

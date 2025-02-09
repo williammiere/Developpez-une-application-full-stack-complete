@@ -7,13 +7,13 @@ import lombok.Data;
 @Data
 public class CreateArticleDTO {
     @NotBlank
-    @Size(min=1)
+    @Size(min=2)
     private String title;
     @NotBlank
-    @Size(min=1)
+    @Size(min=2)
     private String content;
     @NotBlank
-    @Size(min=1)
+    @Size(min=2)
     private String theme;
     @NotBlank
     private int author;

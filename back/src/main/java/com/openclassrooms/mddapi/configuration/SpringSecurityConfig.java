@@ -60,8 +60,6 @@ public class SpringSecurityConfig {
         // No auth needed on :
         .requestMatchers("/api/auth/login",
           "/api/auth/register",
-          "/swagger-ui/**",
-          "/v3/api-docs/**",
           "favicon.ico").permitAll()
         .anyRequest().authenticated()
       )

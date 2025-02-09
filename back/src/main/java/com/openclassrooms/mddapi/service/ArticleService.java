@@ -1,6 +1,5 @@
 package com.openclassrooms.mddapi.service;
 
-import java.io.IOException;
 import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +7,11 @@ import org.springframework.stereotype.Service;
 
 import com.openclassrooms.mddapi.model.Article;
 import com.openclassrooms.mddapi.model.Theme;
+import com.openclassrooms.mddapi.model.User;
+import com.openclassrooms.mddapi.model.UserTheme;
 import com.openclassrooms.mddapi.repository.ArticleRepository;
 import com.openclassrooms.mddapi.repository.ThemeRepository;
+import com.openclassrooms.mddapi.repository.UserThemeRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -23,11 +25,16 @@ public class ArticleService {
     private ThemeRepository themeRepository;
 
     @Autowired
+    private UserThemeRepository userThemeRepository;
+
+    @Autowired
     private UserService userService;
 
-    public Article[] findAll() {
-        Iterable<Article> articles = articleRepository.findAll();
-        return StreamSupport.stream(articles.spliterator(), false).toArray(Article[]::new);
+    public Article[] findAll(User user) {
+        Iterable<UserTheme> userThemes = userThemeRepository.findByUser(user);
+        Theme[] themes = StreamSupport.stream(userThemes.spliterator(), true).map(UserTheme::getTheme).toArray(Theme[]::new);
+        Iterable<Article> articles = articleRepository.findByThemeIn(themes);
+        return StreamSupport.stream(articles.spliterator(), true).toArray(Article[]::new);
     }
 
     public Article findById(int id) {
@@ -35,7 +42,7 @@ public class ArticleService {
         return article;
     }
 
-    public Article createArticle(int user_id, String title, String content, String theme) throws IOException {
+    public Article createArticle(int user_id, String title, String content, String theme) {
         Article article = new Article();
         article.setUser(userService.findById(user_id));
         article.setTitle(title);

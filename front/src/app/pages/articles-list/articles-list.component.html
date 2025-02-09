@@ -3,7 +3,7 @@
 <div class="articleList">
     <div class="article" *ngFor="let article of articles" (click)="read(article)">
         <h2>{{ article.title }}</h2>
-        <h2>{{ article.author }}</h2>
+        <h2>{{ article.user }}</h2>
         <p>{{ article.content }}</p>
     </div>
     <h1 *ngIf="articles?.length === 0">Aucun article</h1>

@@ -13,19 +13,19 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  home() {
+  home(): void {
     this.router.navigate(['/']);
   }
 
-  articles() {
+  articles(): void {
     this.router.navigate(['/articles']);
   }
 
-  themes() {
+  themes(): void {
     this.router.navigate(['/themes']);
   }
 
-  me() {
+  me(): void {
     this.router.navigate(['/me']);
   }
 

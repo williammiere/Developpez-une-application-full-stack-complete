@@ -3,14 +3,15 @@ package com.openclassrooms.mddapi.dto;
 import java.time.LocalDateTime;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 public class ArticleDTO {
-  @NotBlank
+  @NotNull
   private int id;
   @NotBlank
-  private int user;
+  private String user;
   @NotBlank
   private String theme;
   @NotBlank

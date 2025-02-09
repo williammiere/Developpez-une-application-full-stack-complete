@@ -8,7 +8,7 @@ import { ArticleRequest } from '../interfaces/articleRequest.interface';
 @Injectable({
   providedIn: 'root'
 })
-export class articleService {
+export class ArticleService {
 
   private pathService = environment.baseUrl+'article';
 
@@ -20,6 +20,10 @@ export class articleService {
 
   public getAll(): Observable<Article[]> {
     return this.httpClient.get<Article[]>(`${this.pathService}s`);
+  }
+
+  public getOne(id: string): Observable<Article> {
+    return this.httpClient.get<Article>(`${this.pathService}/${id}`);
   }
 
 }

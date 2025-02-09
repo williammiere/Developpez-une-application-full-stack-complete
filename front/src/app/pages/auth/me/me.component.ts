@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { SessionInformation } from 'src/app/interfaces/sessionInformation.interface';
 import { UpdateRequest } from 'src/app/interfaces/updateRequest.interface';
 import { AuthService } from 'src/app/services/auth.service';
@@ -11,7 +12,7 @@ import { SessionService } from 'src/app/services/session.service';
   templateUrl: './me.component.html',
   styleUrls: ['./me.component.scss']
 })
-export class MeComponent implements OnInit {
+export class MeComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
       private fb: FormBuilder,
@@ -20,6 +21,7 @@ export class MeComponent implements OnInit {
 
   public onError = '';
   public user = this.sessionService.sessionInformation;
+  subscription! : Subscription;
   
     public form = this.fb.group({
       email: [
@@ -42,20 +44,28 @@ export class MeComponent implements OnInit {
     this.form.patchValue(this.user ?? {});
   }
 
-  submit() {
+  ngOnDestroy(): void {
+    if(this.subscription){
+      this.subscription.unsubscribe();
+    }
+  }
+
+  submit(): void {
     if(this.form.valid) {
     const updateRequest = this.form.value as UpdateRequest;
-    this.authService.update(updateRequest).subscribe({
+    this.subscription = this.authService.update(updateRequest).subscribe({
       next: (response: SessionInformation) => {
         this.sessionService.update(response);
         window.location.reload();
       },
       error: error => this.onError = error.error,
     });
+  }else{
+    this.onError = "Veuillez vérifier les champs, le nom d'utilisateur doit faire au moins 3 caractères et l'email doit être valide"
   }
 }
 
-logOut() {
+logOut(): void {
   this.sessionService.logOut();
   this.router.navigate(['/']);
 }

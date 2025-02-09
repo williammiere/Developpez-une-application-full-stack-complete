@@ -16,13 +16,11 @@ import com.openclassrooms.mddapi.dto.SingupRequestDTO;
 import com.openclassrooms.mddapi.dto.TokenResponseDTO;
 import com.openclassrooms.mddapi.dto.UserAuthResponseDTO;
 import com.openclassrooms.mddapi.dto.UserDTO;
+import com.openclassrooms.mddapi.dto.UserUpdateDTO;
 import com.openclassrooms.mddapi.modelMapper.UserMapper;
 import com.openclassrooms.mddapi.service.JwtService;
 import com.openclassrooms.mddapi.service.UserService;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 
 @RestController
@@ -38,11 +36,6 @@ public class UserController {
     @Autowired
     private UserMapper userMapper;
 
-    @Operation(summary = "Get user by id")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "User found"),
-        @ApiResponse(responseCode = "404", description = "User not found")
-    })
     @GetMapping("/user/{id}")
     public ResponseEntity<UserAuthResponseDTO> getUser(@PathVariable int id) {
 
@@ -58,11 +51,6 @@ public class UserController {
         return ResponseEntity.ok(userResponse);
     }
 
-    @Operation(summary = "Register a new user", description = "Register a new user with email, name and password and send back a JWT token")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "User registered"),
-        @ApiResponse(responseCode = "400", description = "Bad request")
-    })
     @PostMapping("/auth/register")
     public ResponseEntity<TokenResponseDTO> register(
             @Valid @RequestBody SingupRequestDTO singupRequestDTO) {
@@ -76,11 +64,6 @@ public class UserController {
         return ResponseEntity.ok(tokenResponseDTO);
     }
 
-    @Operation(summary = "Login a user", description = "Login a user with email and password and send back a JWT token")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "User logged in"),
-        @ApiResponse(responseCode = "400", description = "Bad request")
-    })
     @PostMapping("/auth/login")
     public ResponseEntity<TokenResponseDTO> login(
             @Valid @RequestBody LoginRequestDTO loginRequestDTO) {
@@ -95,11 +78,6 @@ public class UserController {
         return ResponseEntity.ok(tokenResponseDTO);
     }
 
-    @Operation(summary = "Get the current user")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "User found"),
-        @ApiResponse(responseCode = "404", description = "User not found")
-    })
     @GetMapping("/auth/me")
     public ResponseEntity<UserAuthResponseDTO> me() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -116,23 +94,18 @@ public class UserController {
 
     }
 
-    @Operation(summary = "Update email and username")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "User updated"),
-        @ApiResponse(responseCode = "400", description = "Bad request")
-    })
     @PutMapping("/auth/update")
     public ResponseEntity<TokenResponseDTO> update(
-            @Valid @RequestBody SingupRequestDTO singupRequestDTO) {
+            @Valid @RequestBody UserUpdateDTO UserUpdateDTO) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         UserDTO user = userMapper.toUserDTO(userService.findByEmail(email));
-        if(!singupRequestDTO.getEmail().equals(user.getEmail())) {
-            if(userService.findByEmail(singupRequestDTO.getEmail()) != null) {
+        if(!UserUpdateDTO.getEmail().equals(user.getEmail())) {
+            if(userService.findByEmail(UserUpdateDTO.getEmail()) != null) {
                 throw new IllegalArgumentException("Email already exists");
             }
-            user.setEmail(singupRequestDTO.getEmail());
+            user.setEmail(UserUpdateDTO.getEmail());
         }
-        user.setName(singupRequestDTO.getUsername());
+        user.setName(UserUpdateDTO.getUsername());
         userService.save(userMapper.toUser(user));
         TokenResponseDTO userResponse = new TokenResponseDTO();
         userResponse.setId(user.getId());

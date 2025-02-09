@@ -17,10 +17,6 @@ import com.openclassrooms.mddapi.modelMapper.UserMapper;
 import com.openclassrooms.mddapi.service.ThemeService;
 import com.openclassrooms.mddapi.service.UserService;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-
 
 
 @RestController
@@ -39,11 +35,6 @@ public class ThemeController {
     @Autowired
     private ThemeMapper themeMapper;
 
-    @Operation(summary = "Get all themes")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Themes found"),
-        @ApiResponse(responseCode = "404", description = "No themes found")
-    })
     @GetMapping("/themes")
     public ResponseEntity<ThemeResponseDTO> getThemes() {
 
@@ -72,12 +63,6 @@ public class ThemeController {
       return ResponseEntity.ok(themeService.getSubscribedThemes(userDTO.getId()));
     }
     
-
-    @Operation(summary = "Get a theme by id")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Theme found"),
-        @ApiResponse(responseCode = "404", description = "No theme found")
-    })
     @PostMapping("/theme/subscribe/{themeId}")
     public ResponseEntity<Boolean> subscribe(@PathVariable int themeId) {
 
@@ -86,11 +71,6 @@ public class ThemeController {
       return ResponseEntity.ok(themeService.subscribe(themeId, userDTO.getId()));
     }
 
-    @Operation(summary = "Subscribe to a theme")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Subscribed to theme"),
-        @ApiResponse(responseCode = "404", description = "No theme found")
-    })
     @PostMapping("/theme/unsubscribe/{themeId}")
     public ResponseEntity<Boolean> unsubscribe(@PathVariable int themeId) {
 

@@ -13,7 +13,7 @@ CREATE TABLE `USERS` (
 
 CREATE TABLE `THEMES`(
   `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `title` VARCHAR(255) NOT NULL CHECK (LENGTH(`title`) >= 1),
+  `title` VARCHAR(255) NOT NULL CHECK (LENGTH(`title`) >= 2),
   `description` TEXT
 );
 
@@ -27,7 +27,7 @@ CREATE TABLE `USER_THEMES`(
 
 CREATE TABLE `ARTICLES`(
   `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `title` VARCHAR(255) NOT NULL CHECK (LENGTH(`title`) >= 1),
+  `title` VARCHAR(255) NOT NULL CHECK (LENGTH(`title`) >= 2),
   `user_id` INT,
   `content` TEXT NOT NULL,
   `theme_id` INT,
@@ -39,7 +39,7 @@ CREATE TABLE `ARTICLES`(
 
 CREATE TABLE `COMMENTS`(
   `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `content` TEXT NOT NULL CHECK (LENGTH(`content`) >= 1),
+  `content` TEXT NOT NULL CHECK (LENGTH(`content`) >= 2),
   `user_id` INT,
   `article_id` INT,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

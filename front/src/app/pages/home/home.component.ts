@@ -12,11 +12,11 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  login() {
+  login(): void {
     this.router.navigate(['/login']);
   }
 
-  register() {
+  register(): void {
     this.router.navigate(['/register']);
   }
 }
