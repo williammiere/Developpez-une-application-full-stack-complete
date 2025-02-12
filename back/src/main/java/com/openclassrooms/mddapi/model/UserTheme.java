@@ -9,6 +9,9 @@ import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+/**
+ * The entity class for the user theme
+ */
 @Entity
 @Table(name = "USER_THEMES")
 @Data

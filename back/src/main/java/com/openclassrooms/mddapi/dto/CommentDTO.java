@@ -5,6 +5,11 @@ import java.time.LocalDateTime;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+/**
+ * The DTO class for the comment entity
+ * 
+ * @see com.openclassrooms.mddapi.model.Comment
+ */
 @Data
 public class CommentDTO {
   private int id;

@@ -22,7 +22,11 @@ import com.openclassrooms.mddapi.service.UserService;
 import jakarta.validation.Valid;
 
 
-
+/**
+ * The Comment controller.
+ * 
+ * @version 1.0
+ */
 @RestController
 @RequestMapping("api")
 public class CommentController {
@@ -39,6 +43,12 @@ public class CommentController {
   @Autowired
   private CommentMapper commentMapper;
 
+  /**
+   * Gets a comment by its id.
+   *
+   * @param id the comment's id.
+   * @return the comment.
+   */
   @GetMapping("/comments/{id}")
   public ResponseEntity<CommentResponseDTO[]> getComment(@PathVariable int id) {
     Iterable<Comment> comments = CommentService.getComments(id);
@@ -47,7 +57,12 @@ public class CommentController {
     return ResponseEntity.ok(CommentResponseDTO);
   }
   
-
+  /**
+   * Creates a comment.
+   *
+   * @param createCommentDTO the comment to create.
+   * @return the comment.
+   */
   @PostMapping("/comment/send")
   public ResponseEntity<CommentResponseDTO> createComment(@Valid @RequestBody CreateCommentDTO createCommentDTO) {
 

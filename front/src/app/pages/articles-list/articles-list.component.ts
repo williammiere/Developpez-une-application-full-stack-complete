@@ -15,6 +15,7 @@ export class ArticlesListComponent implements OnInit, OnDestroy {
 
   protected articles: Article[] = [];
   protected subscriptions: string[] = [];
+  protected croissant: boolean = false;
   subscription!: Subscription;
 
   constructor(private router: Router, private articleService: ArticleService, private themeService: ThemeService) { }
@@ -37,5 +38,12 @@ export class ArticlesListComponent implements OnInit, OnDestroy {
 
   read(article: Article): void {
     this.router.navigate(['/article/' + article.id]);
+  }
+
+  tri(): void {
+    this.croissant = !this.croissant;
+    this.articles.sort((a, b) => {
+      return this.croissant ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title);
+    });
   }
 }

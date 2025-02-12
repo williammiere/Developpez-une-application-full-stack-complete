@@ -12,6 +12,18 @@
         </mat-form-field>
         <button mat-stroked-button (click)="submit()">Sauvegarder</button>
         <span *ngIf="onError" class="error ml2">{{onError}}</span>
-        <button mat-stroked-button (click)="logOut()">Se déconnecter</button>
+        <button mat-flat-button (click)="logOut()" style="background-color: white; border: none; color: red;">Se déconnecter</button>
+    </div>
+    <div class="content">
+        <hr>
+        <p>Abonnements</p>
+    </div>
+    <div class="themeList">
+        <div class="themes" *ngFor="let theme of themes">
+            <h2>{{ theme.name }}</h2>
+            <p>{{ theme.description }}</p>
+            <button mat-stroked-button (click)="unsubscribe(theme)">Se désabonner</button>
+        </div>
+        <h1 *ngIf="themes?.length === 0">Aucun thème</h1>
     </div>
 </div>

@@ -6,6 +6,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.Data;
 
+/**
+ * The entity class for the user theme id
+ */
 @Embeddable
 @Data
 public class UserThemeId implements Serializable {

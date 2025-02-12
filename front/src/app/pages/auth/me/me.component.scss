@@ -1,21 +1,71 @@
-.form{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-button{
-    height: 50px;
-    width: 200px;
-    font-size: large;
-    color: white;
-    background-color: rgb(136, 0, 226);
-    border-color: black;
-    border-radius: 15px;
+button {
+  height: 50px;
+  width: 200px;
+  font-size: large;
+  color: white;
+  background-color: rgb(136, 0, 226);
+  border-color: black;
+  border-radius: 15px;
+  margin-top: 15px;
+}
+
+.error {
+  color: red;
+}
+
+.themeList {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.content {
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  margin-top: 35px;
+  margin-bottom: 35px;
+
+  p {
+    text-align: center;
+    font-size: xx-large;
     margin-top: 15px;
   }
+}
 
-  .error {
-    color: red;
+.themes {
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: gainsboro;
+  border-radius: 25px;
+  width: 95%;
+  height: 95%;
+  cursor: pointer;
+
+  h2 {
+    margin-left: 10%;
   }
+
+  p {
+    margin-left: 10%;
+  }
+
+  button {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

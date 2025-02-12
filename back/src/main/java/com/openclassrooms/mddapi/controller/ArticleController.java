@@ -22,6 +22,11 @@ import com.openclassrooms.mddapi.service.UserService;
 
 import jakarta.validation.Valid;
 
+/**
+ * The article controller.
+ *
+ * @version 1.0
+ */
 @RestController
 @RequestMapping("api")
 public class ArticleController {
@@ -38,6 +43,12 @@ public class ArticleController {
   @Autowired
   private UserMapper userMapper;
 
+  /**
+   * Gets an article by its id.
+   *
+   * @param id the article's id.
+   * @return the article.
+   */
   @GetMapping("/article/{id}")
   public ResponseEntity<ArticleDTO> getArticle(@PathVariable int id) {
 
@@ -45,6 +56,11 @@ public class ArticleController {
     return ResponseEntity.ok(articleDTO);
     }
 
+    /**
+     * Gets all articles.
+     *
+     * @return the articles.
+     */
     @GetMapping("/articles")
     public ResponseEntity<ArticleResponseDTO> getArticles() {
 
@@ -59,6 +75,12 @@ public class ArticleController {
     return ResponseEntity.ok(articleResponseDTO);
     }
     
+    /**
+     * Creates an article.
+     *
+     * @param createArticleDTO the article to create.
+     * @return the created article.
+     */
     @PostMapping("/article/create")
     public ResponseEntity<ArticleDTO> createArticle(@Valid @RequestBody CreateArticleDTO createArticleDTO) {
 

@@ -14,6 +14,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import jakarta.persistence.EntityNotFoundException;
 
 // This class handles the exceptions thrown by the application.
+/**
+ * The Rest response entity exception handler.
+ */
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 

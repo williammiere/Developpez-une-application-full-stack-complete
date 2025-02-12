@@ -1,4 +1,9 @@
 <app-header></app-header>
+<div class="tri">
+    <h1>Trier</h1>
+    <img *ngIf="croissant" src="/assets/clock_arrow_down.svg" alt="Trier par date" (click)="tri()" />
+    <img *ngIf="!croissant" src="/assets/clock_arrow_up.svg" alt="Trier par date" (click)="tri()" />
+</div>
 <button mat-stroked-button (click)="create()">Créer un article</button>
 <div class="articleList">
     <div class="article" *ngFor="let article of articles" (click)="read(article)">

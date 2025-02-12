@@ -17,8 +17,10 @@ export class ThemesListComponent implements OnInit, OnDestroy {
   constructor(private router: Router, private themeService: ThemeService) { }
 
   ngOnDestroy(): void {
-    for(var subscription of this.subscriptions){
-      subscription.unsubscribe();
+    if (this.subscriptions) {
+      this.subscriptions.forEach(subscription => {
+        subscription.unsubscribe();
+      });
     }
   }
 
@@ -30,12 +32,6 @@ export class ThemesListComponent implements OnInit, OnDestroy {
   
     subscribe(theme: Theme): void{
       this.subscriptions.push(this.themeService.subscribe(theme.id).subscribe(() => {
-        window.location.reload();
-      }));
-    }
-
-    unsubscribe(theme: Theme): void{
-      this.subscriptions.push(this.themeService.unsubscribe(theme.id).subscribe(() => {
         window.location.reload();
       }));
     }

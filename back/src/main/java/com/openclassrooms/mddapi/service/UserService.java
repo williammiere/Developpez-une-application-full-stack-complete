@@ -13,6 +13,9 @@ import com.openclassrooms.mddapi.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.Data;
 
+/**
+ * The service class for the user entity
+ */
 @Data
 @Service
 public class UserService {
@@ -26,6 +29,13 @@ public class UserService {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
+  /**
+   * Register a user
+   * @param email the email of the user
+   * @param name the name of the user
+   * @param password the password of the user
+   * @return the token
+   */
   public String register(String email, String name, String password) {
     User existingEmail = userRepository.findByEmail(email);
 
@@ -49,6 +59,12 @@ public class UserService {
     return jwtService.generateToken(userDetails.getUsername());
   }
 
+  /**
+   * Login a user
+   * @param email the email of the user
+   * @param password the password of the user
+   * @return the token
+   */
   public String login(String email, String password) {
     User user = userRepository.findByEmail(email);
 
@@ -68,18 +84,37 @@ public class UserService {
     return jwtService.generateToken(userDetails.getUsername());
   }
 
+  /**
+   * Save a user
+   * @param user the user to save
+   * @return the saved user
+   */
   public User save(User user) {
     return userRepository.save(user);
   }
 
+  /**
+   * Find a user by its id
+   * @param id the id of the user
+   * @return the user
+   */
   public User findById(int id) {
     return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
   }
 
+  /**
+   * Find a user by its email
+   * @param email the email of the user
+   * @return the user
+   */
   public User findByEmail(String email) {
     return userRepository.findByEmail(email);
   }
 
+  /**
+   * Delete a user by its id
+   * @param id the id of the user
+   */
   public void deleteById(int id) {
     userRepository.deleteById(id);
   }

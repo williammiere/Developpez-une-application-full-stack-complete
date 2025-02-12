@@ -5,6 +5,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+/**
+ * The DTO class for the article entity
+ * 
+ * @see com.openclassrooms.mddapi.model.Article
+ */
 @Data
 public class CreateArticleDTO {
     @NotBlank

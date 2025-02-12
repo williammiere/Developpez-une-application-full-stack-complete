@@ -17,8 +17,11 @@ import com.openclassrooms.mddapi.modelMapper.UserMapper;
 import com.openclassrooms.mddapi.service.ThemeService;
 import com.openclassrooms.mddapi.service.UserService;
 
-
-
+/**
+ * The Theme controller.
+ * 
+ * @version 1.0
+ */
 @RestController
 @RequestMapping("api")
 public class ThemeController {
@@ -35,6 +38,11 @@ public class ThemeController {
     @Autowired
     private ThemeMapper themeMapper;
 
+    /**
+     * Gets all themes.
+     *
+     * @return the themes.
+     */
     @GetMapping("/themes")
     public ResponseEntity<ThemeResponseDTO> getThemes() {
 
@@ -55,14 +63,25 @@ public class ThemeController {
     return ResponseEntity.ok(themeResponseDTO);
     }
 
+    /**
+     * Gets all subscribed themes for the current user.
+     *
+     * @return the subscribed themes.
+     */
     @GetMapping("/themes/subscribed")
-    public ResponseEntity<String[]> getSubscribedThemes() {
+    public ResponseEntity<ThemeDTO[]> getSubscribedThemes() {
 
       UserDTO userDTO = userMapper.toUserDTO(userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()));
 
-      return ResponseEntity.ok(themeService.getSubscribedThemes(userDTO.getId()));
+      return ResponseEntity.ok(themeMapper.toListThemeDTO(themeService.getSubscribedThemes(userDTO.getId())));
     }
     
+    /**
+     * Subscribes to a theme.
+     *
+     * @param themeId the theme's id.
+     * @return true if the subscription was successful, false otherwise.
+     */
     @PostMapping("/theme/subscribe/{themeId}")
     public ResponseEntity<Boolean> subscribe(@PathVariable int themeId) {
 
@@ -71,6 +90,12 @@ public class ThemeController {
       return ResponseEntity.ok(themeService.subscribe(themeId, userDTO.getId()));
     }
 
+    /**
+     * Unsubscribes from a theme.
+     *
+     * @param themeId the theme's id.
+     * @return true if the unsubscription was successful, false otherwise.
+     */
     @PostMapping("/theme/unsubscribe/{themeId}")
     public ResponseEntity<Boolean> unsubscribe(@PathVariable int themeId) {
 

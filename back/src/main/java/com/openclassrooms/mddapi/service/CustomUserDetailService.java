@@ -13,12 +13,20 @@ import org.springframework.stereotype.Service;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.repository.UserRepository;
 
+/**
+ * The service class for the user entity
+ */
 @Service
 public class CustomUserDetailService implements UserDetailsService {
 
   @Autowired
   private UserRepository userRepository;
 
+  /**
+   * Load a user by its username
+   * @param username the username
+   * @return the user
+   */
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     User user = userRepository.findByEmail(username);

@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+
 @Data
 public class UserDTO {
   private int id;

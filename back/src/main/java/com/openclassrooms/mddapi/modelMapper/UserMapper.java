@@ -5,9 +5,17 @@ import org.springframework.stereotype.Component;
 import com.openclassrooms.mddapi.dto.UserDTO;
 import com.openclassrooms.mddapi.model.User;
 
+/**
+ * Mapper for the User entity
+ */
 @Component
 public class UserMapper {
 
+  /**
+   * Converts a User entity to a UserDTO
+   * @param user the User entity
+   * @return the UserDTO
+   */
   public UserDTO toUserDTO(User user) {
     UserDTO userDTO = new UserDTO();
     userDTO.setId(user.getId());
@@ -20,6 +28,11 @@ public class UserMapper {
     return userDTO;
   }
 
+  /**
+   * Converts an array of User entities to an array of UserDTOs
+   * @param users the array of User entities
+   * @return the array of UserDTOs
+   */
   public User toUser(UserDTO userDTO) {
     User user = new User();
     user.setId(userDTO.getId());

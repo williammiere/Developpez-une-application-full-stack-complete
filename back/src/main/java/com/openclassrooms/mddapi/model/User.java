@@ -18,6 +18,9 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+/**
+ * The entity class for the user
+ */
 @Entity
 @Table(name = "USERS")
 @Data

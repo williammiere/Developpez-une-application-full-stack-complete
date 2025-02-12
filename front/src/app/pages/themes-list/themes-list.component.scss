@@ -1,4 +1,4 @@
-button{
+button {
     height: 50px;
     width: 200px;
     font-size: large;
@@ -8,23 +8,33 @@ button{
     border-radius: 15px;
 }
 
-.themeList{
-    display: flex;
+.themeList {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     flex-wrap: wrap;
     justify-content: space-around;
     margin-top: 20px;
 }
 
-.themes{
+.themes {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
     background-color: gainsboro;
     border-radius: 25px;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-    h2{
+    width: 95%;
+    height: 95%;
+    h2 {
         margin-left: 10%;
     }
-    p{
+
+    p {
         margin-left: 2%;
     }
+
+    button {
+        margin-left: auto;
+        margin-right: auto;
+      }
 }

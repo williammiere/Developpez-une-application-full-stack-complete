@@ -20,6 +20,10 @@ import com.openclassrooms.mddapi.service.CustomUserDetailService;
 import jakarta.servlet.http.HttpServletResponse;
 
 
+/**
+ * The Spring security configuration.
+ * 
+ */
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig {
@@ -50,6 +54,13 @@ public class SpringSecurityConfig {
     return new BCryptPasswordEncoder();
   }
 
+  /**
+   * Configures the security filter chain.
+   * 
+   * @param http the http security.
+   * @return the security filter chain.
+   * @throws Exception if an error occurs.
+   */
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http

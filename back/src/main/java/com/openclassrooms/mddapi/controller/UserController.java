@@ -23,6 +23,11 @@ import com.openclassrooms.mddapi.service.UserService;
 
 import jakarta.validation.Valid;
 
+/**
+ * The User controller.
+ * 
+ * @version 1.0
+ */
 @RestController
 @RequestMapping("api")
 public class UserController {
@@ -36,6 +41,12 @@ public class UserController {
     @Autowired
     private UserMapper userMapper;
 
+    /**
+     * Gets a user by its id.
+     *
+     * @param id the user's id.
+     * @return the user.
+     */
     @GetMapping("/user/{id}")
     public ResponseEntity<UserAuthResponseDTO> getUser(@PathVariable int id) {
 
@@ -51,6 +62,12 @@ public class UserController {
         return ResponseEntity.ok(userResponse);
     }
 
+    /**
+     * Registers a new user.
+     *
+     * @param signUpRequest the registration details.
+     * @return the registered user's authentication details.
+     */
     @PostMapping("/auth/register")
     public ResponseEntity<TokenResponseDTO> register(
             @Valid @RequestBody SingupRequestDTO singupRequestDTO) {
@@ -64,6 +81,12 @@ public class UserController {
         return ResponseEntity.ok(tokenResponseDTO);
     }
 
+    /**
+     * Logs in a user.
+     *
+     * @param loginRequestDTO the login details.
+     * @return the logged in user's authentication details.
+     */
     @PostMapping("/auth/login")
     public ResponseEntity<TokenResponseDTO> login(
             @Valid @RequestBody LoginRequestDTO loginRequestDTO) {
@@ -78,6 +101,11 @@ public class UserController {
         return ResponseEntity.ok(tokenResponseDTO);
     }
 
+    /**
+     * Gets the current user.
+     *
+     * @return the current user.
+     */
     @GetMapping("/auth/me")
     public ResponseEntity<UserAuthResponseDTO> me() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -94,6 +122,12 @@ public class UserController {
 
     }
 
+    /**
+     * Updates the current user.
+     *
+     * @param UserUpdateDTO the updated user details.
+     * @return the updated user's authentication details.
+     */
     @PutMapping("/auth/update")
     public ResponseEntity<TokenResponseDTO> update(
             @Valid @RequestBody UserUpdateDTO UserUpdateDTO) {
