@@ -13,10 +13,6 @@ export class ThemeService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public create(themeRequest: Theme): Observable<any> {
-    return this.httpClient.post<any>(`${this.pathService}/create`, themeRequest);
-  }
-
   public getAll(): Observable<Theme[]> {
     return this.httpClient.get<Theme[]>(`${this.pathService}s`);
   }

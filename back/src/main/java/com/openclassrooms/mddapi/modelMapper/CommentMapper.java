@@ -1,7 +1,5 @@
 package com.openclassrooms.mddapi.modelMapper;
 
-import java.util.Arrays;
-
 import org.springframework.stereotype.Component;
 
 import com.openclassrooms.mddapi.dto.CommentResponseDTO;

@@ -29,4 +29,5 @@
         <textarea [(ngModel)]="newComment" placeholder="Écrivez ici votre commentaire"></textarea>
         <button (click)="addComment()">Send</button>
     </div>
+    <span *ngIf="onError" class="error ml2">{{onError}}</span>
 </div>

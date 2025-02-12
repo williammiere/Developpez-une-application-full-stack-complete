@@ -5,7 +5,11 @@
 <div class="form" [formGroup]="form">
     <h1>Créer un nouvel article</h1>
     <mat-form-field appearance="outline">
-        <input matNativeControl placeholder="Séléctionner un thème" formControlName="theme" />
+        <mat-select placeholder="Sélectionner un thème" formControlName="theme">
+            <mat-option *ngFor="let theme of themes" [value]="theme">
+                {{ theme }}
+            </mat-option>
+        </mat-select>
     </mat-form-field>
     <mat-form-field appearance="outline">
         <input matNativeControl placeholder="Titre de l'article" formControlName="title" />

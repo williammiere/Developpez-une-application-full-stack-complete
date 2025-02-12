@@ -26,7 +26,7 @@ export class ArticlesListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.articleService.getAll().subscribe((data: any) => {
+    this.subscription = this.articleService.getAll().subscribe((data: any) => {
       this.articles = data.articles;
     });
   }

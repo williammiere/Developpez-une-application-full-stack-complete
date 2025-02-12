@@ -3,8 +3,10 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ArticleRequest } from 'src/app/interfaces/articleRequest.interface';
+import { Theme } from 'src/app/interfaces/theme.interface';
 import { ArticleService } from 'src/app/services/article.service';
 import { SessionService } from 'src/app/services/session.service';
+import { ThemeService } from 'src/app/services/theme.service';
 
 @Component({
   selector: 'app-article-form',
@@ -13,18 +15,19 @@ import { SessionService } from 'src/app/services/session.service';
 })
 export class ArticleFormComponent implements OnInit, OnDestroy {
 
+  protected themes: string[] = [];
+
   constructor(private router: Router,
-    private fb: FormBuilder, private articleService: ArticleService, private sessionService: SessionService) { }
+    private fb: FormBuilder, private articleService: ArticleService, private sessionService: SessionService, private themeService: ThemeService) { }
 
   public onError = '';
-  subscription! : Subscription;
+  subscriptions: Subscription[] = [];
 
   public form = this.fb.group({
     theme: [
       '',
       [
         Validators.required,
-        Validators.minLength(2)
       ]
     ],
     title: [
@@ -44,11 +47,18 @@ export class ArticleFormComponent implements OnInit, OnDestroy {
   });
 
   ngOnInit(): void {
+    this.subscriptions.push(this.themeService.getAll().subscribe((response: any) => {
+      response.themes.forEach((theme: Theme) => {
+        this.themes.push(theme.name);
+      });
+    }));
   }
 
   ngOnDestroy(): void {
-    if(this.subscription){
-      this.subscription.unsubscribe();
+    if (this.subscriptions) {
+      this.subscriptions.forEach(subscription => {
+        subscription.unsubscribe();
+      });
     }
   }
 
@@ -63,14 +73,14 @@ export class ArticleFormComponent implements OnInit, OnDestroy {
       article.author = user?.id ?? -1;
       if (user?.id !== -1 && user != undefined) {
         {
-          this.subscription = this.articleService.create(article).subscribe({
+          this.subscriptions.push(this.articleService.create(article).subscribe({
             next: (data) => {
               this.router.navigate(['/articles']);
             },
             error: (error) => {
               this.onError = error.error.message;
             }
-          });
+          }));
         }
       }
     }else{

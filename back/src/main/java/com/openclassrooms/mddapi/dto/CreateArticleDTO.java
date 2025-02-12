@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -15,6 +16,6 @@ public class CreateArticleDTO {
     @NotBlank
     @Size(min=2)
     private String theme;
-    @NotBlank
+    @NotNull
     private int author;
 }

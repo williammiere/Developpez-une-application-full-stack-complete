@@ -49,11 +49,7 @@ public class ArticleService {
         article.setContent(content);
         
         if(themeRepository.findByTitle(theme) == null) {
-            Theme newTheme = new Theme();
-            newTheme.setTitle(theme);
-            newTheme.setDescription(theme);
-            themeRepository.save(newTheme);
-            article.setTheme(newTheme);
+            throw new EntityNotFoundException("Theme not found");
         }else{
             article.setTheme(themeRepository.findByTitle(theme));
         }

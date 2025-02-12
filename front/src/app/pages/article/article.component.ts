@@ -22,6 +22,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
   comments: Comment[] = [];
   newComment: string = '';
   userName: string = '';
+  onError: string = '';
 
   constructor(private articleService: ArticleService, private route: ActivatedRoute, private commentService: CommentService, private sessionService: SessionService) { }
 
@@ -55,6 +56,8 @@ export class ArticleComponent implements OnInit, OnDestroy {
       };
       this.subscriptions.push(this.commentService.send(this.commentRequest).subscribe());
       this.newComment = '';
+    }else{
+      this.onError = 'Le commentaire doit contenir au moins 2 caractères';
     }
   }
 
