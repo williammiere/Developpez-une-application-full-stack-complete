@@ -27,7 +27,7 @@ export class ArticlesListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscription = this.articleService.getAll().subscribe((data: any) => {
+    this.subscription = this.articleService.getAll().subscribe((data: any) => { // We get all the articles
       this.articles = data.articles;
     });
   }
@@ -43,7 +43,7 @@ export class ArticlesListComponent implements OnInit, OnDestroy {
   tri(): void {
     this.croissant = !this.croissant;
     this.articles.sort((a, b) => {
-      return this.croissant ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title);
+      return this.croissant ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title); // We sort the articles by title
     });
   }
 }

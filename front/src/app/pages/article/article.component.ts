@@ -52,10 +52,10 @@ export class ArticleComponent implements OnInit, OnDestroy {
   }
 
   addComment(): void {
-    if (this.newComment.trim().length >= 2) {
+    if (this.newComment.trim().length >= 2) { // We check if the comment is at least 2 characters long
       this.commentRequest = {
         content: this.newComment,
-        article_id: parseInt(this.route.snapshot.url[1].toString())
+        article_id: parseInt(this.route.snapshot.url[1].toString()) // We get the article id from the url
       };
       this.subscriptions.push(this.commentService.send(this.commentRequest).subscribe());
       this.newComment = '';

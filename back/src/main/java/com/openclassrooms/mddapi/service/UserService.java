@@ -127,9 +127,6 @@ public class UserService {
    */
   public boolean passwordCheck(String email, String password) {
     User user = userRepository.findByEmail(email);
-    if (!passwordEncoder.matches(password, user.getPassword())) {
-      return false;
-    }
-    return true;
+    return passwordEncoder.matches(password, user.getPassword());
   }
 }

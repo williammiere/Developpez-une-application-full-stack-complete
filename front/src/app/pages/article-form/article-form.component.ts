@@ -47,7 +47,7 @@ export class ArticleFormComponent implements OnInit, OnDestroy {
   });
 
   ngOnInit(): void {
-    this.subscriptions.push(this.themeService.getAll().subscribe((response: any) => {
+    this.subscriptions.push(this.themeService.getAll().subscribe((response: any) => { // We get all the themes
       response.themes.forEach((theme: Theme) => {
         this.themes.push(theme.name);
       });
@@ -68,9 +68,9 @@ export class ArticleFormComponent implements OnInit, OnDestroy {
 
   submit(): void {
     if (this.form.valid) {
-      const article = this.form.value as ArticleRequest;
-      const user = this.sessionService.sessionInformation;
-      article.author = user?.id ?? -1;
+      const article = this.form.value as ArticleRequest; // We get the values from the form
+      const user = this.sessionService.sessionInformation; // We get the user
+      article.author = user?.id ?? -1; // We get the user id
       if (user?.id !== -1 && user != undefined) {
         {
           this.subscriptions.push(this.articleService.create(article).subscribe({

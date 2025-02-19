@@ -6,10 +6,10 @@ import { SessionService } from '../services/session.service';
 export class JwtInterceptor implements HttpInterceptor {
   constructor(private sessionService: SessionService) {}
 
-  public intercept(request: HttpRequest<any>, next: HttpHandler) {
-    const token = JSON.parse(localStorage.getItem('session') || "{}")?.token;
+  public intercept(request: HttpRequest<any>, next: HttpHandler) { // We intercept the request
+    const token = JSON.parse(localStorage.getItem('session') || "{}")?.token; // We get the token from the local storage
     if (token) {
-      request = request.clone({
+      request = request.clone({ // We clone the request and add the token to the headers
         setHeaders: {
           Authorization: `Bearer ${token}`,
         },

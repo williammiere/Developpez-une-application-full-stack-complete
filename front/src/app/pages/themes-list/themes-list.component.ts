@@ -25,13 +25,13 @@ export class ThemesListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-      this.subscriptions.push(this.themeService.getAll().subscribe((data: any) => {
+      this.subscriptions.push(this.themeService.getAll().subscribe((data: any) => { // We get all the themes
         this.themes = data.themes;
       }));
     }
   
     subscribe(theme: Theme): void{
-      this.subscriptions.push(this.themeService.subscribe(theme.id).subscribe(() => {
+      this.subscriptions.push(this.themeService.subscribe(theme.id).subscribe(() => { // We subscribe to a theme
         window.location.reload();
       }));
     }

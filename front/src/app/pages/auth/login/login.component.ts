@@ -48,7 +48,7 @@ export class LoginComponent implements OnDestroy{
   }
 
   submit(): void {
-    const loginRequest = this.form.value as LoginRequest;
+    const loginRequest = this.form.value as LoginRequest; // We get the form values
     this.subscription = this.authService.login(loginRequest).subscribe({
       next: (response: SessionInformation) => {
         this.sessionService.logIn(response);

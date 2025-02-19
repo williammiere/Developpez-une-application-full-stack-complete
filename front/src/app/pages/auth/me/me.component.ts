@@ -53,8 +53,8 @@ export class MeComponent implements OnInit, OnDestroy {
     });
 
   ngOnInit(): void {
-    this.form.patchValue(this.user ?? {});
-    this.subscriptions.push(this.themeService.getSubscribed().subscribe((response: any) => {
+    this.form.patchValue(this.user ?? {}); // We fill the form with the user information
+    this.subscriptions.push(this.themeService.getSubscribed().subscribe((response: any) => { // We get the subscribed themes
       response.forEach((theme: Theme) => {
         this.themes.push(theme);
       });
@@ -72,7 +72,7 @@ export class MeComponent implements OnInit, OnDestroy {
   submit(): void {
     if (this.form.value.newPassword && this.form.value.newPassword !== '') {
       const password = this.form.value.newPassword;
-      const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/;
+      const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/; // We check if the password contains at least one lowercase, one uppercase, one number and one special character
       if (!pattern.test(password)) {
         this.onError = 'Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial.';
         return;
@@ -87,8 +87,8 @@ valid(): void {
   this.passPopup = false;
   const updateRequest = this.form.value as UpdateRequest;
   updateRequest.password = this.password;
-  updateRequest.newPassword = this.form.value.newPassword ? this.form.value.newPassword : null;
-  this.subscriptions.push(this.authService.update(updateRequest).subscribe({
+  updateRequest.newPassword = this.form.value.newPassword ? this.form.value.newPassword : null; // We check if the new password is empty
+  this.subscriptions.push(this.authService.update(updateRequest).subscribe({ // We update the user
     next: (response: SessionInformation) => {
       this.sessionService.update(response);
       window.location.reload();

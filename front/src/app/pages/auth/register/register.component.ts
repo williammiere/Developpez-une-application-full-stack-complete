@@ -59,13 +59,13 @@ export class RegisterComponent implements OnDestroy {
   submit(): void {
     if (this.form.valid && this.form.value.password) {
       const password = this.form.value.password;
-      const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/;
+      const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/; // We check if the password contains at least one lowercase, one uppercase, one number and one special character
       if (!pattern.test(password)) {
         this.onError = 'Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial.';
         return;
       }
       const registerRequest = this.form.value as RegisterRequest;
-      this.subscription = this.authService.register(registerRequest).subscribe({
+      this.subscription = this.authService.register(registerRequest).subscribe({ // We send the register request
         next: (response: SessionInformation) => {
           this.sessionService.logIn(response);
           this.router.navigate(['/me']);
