@@ -6,7 +6,6 @@ import { CommentRequest } from 'src/app/interfaces/commentRequest.interface';
 import { ArticleService } from 'src/app/services/article.service';
 import { CommentService } from 'src/app/services/comment.service';
 import { Comment } from 'src/app/interfaces/comment.interface';
-import { SessionInformation } from 'src/app/interfaces/sessionInformation.interface';
 import { SessionService } from 'src/app/services/session.service';
 
 @Component({
@@ -27,13 +26,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
   constructor(private articleService: ArticleService, private route: ActivatedRoute, private commentService: CommentService, private sessionService: SessionService) { }
 
   ngOnInit(): void {
-    this.userName = this.sessionService?.sessionInformation?.username ? this.sessionService.sessionInformation.username : '';
-    this.subscriptions.push(this.articleService.getOne(this.route.snapshot.url[1].toString()).subscribe((data: any) => {
-      this.article = data;
-      this.subscriptions.push(this.commentService.getComments(this.route.snapshot.url[1].toString()).subscribe((data: any) => {
-        this.comments = data;
-      }));
-    }));
+    this.initPage();
   }
 
   ngOnDestroy(): void {
@@ -42,6 +35,16 @@ export class ArticleComponent implements OnInit, OnDestroy {
         subscription.unsubscribe();
       });
     }
+  }
+
+  initPage(): void {
+    this.userName = this.sessionService?.sessionInformation?.username ? this.sessionService.sessionInformation.username : '';
+    this.subscriptions.push(this.articleService.getOne(this.route.snapshot.url[1].toString()).subscribe((data: any) => {
+      this.article = data;
+      this.subscriptions.push(this.commentService.getComments(this.route.snapshot.url[1].toString()).subscribe((data: any) => {
+        this.comments = data;
+      }));
+    }));
   }
 
   back(): void {
@@ -56,6 +59,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
       };
       this.subscriptions.push(this.commentService.send(this.commentRequest).subscribe());
       this.newComment = '';
+      this.initPage();
     }else{
       this.onError = 'Le commentaire doit contenir au moins 2 caractères';
     }

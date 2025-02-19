@@ -4,7 +4,7 @@
     <h1>{{ article.title }}</h1>
 </div>
 <div class="info">
-    <p>{{ article.created_at }}</p>
+    <p>{{ article.created_at | slice:0:10 }}</p>
     <p>{{ article.user }}</p>
     <p>{{ article.theme }}</p>
 </div>
@@ -26,8 +26,10 @@
     </div>
 
     <div class="comment-input-area">
-        <textarea [(ngModel)]="newComment" placeholder="Écrivez ici votre commentaire"></textarea>
-        <button (click)="addComment()">Send</button>
+        <mat-form-field appearance="outline" class="input">
+            <input [(ngModel)]="newComment" matNativeControl placeholder="Écrivez ici votre commentaire"/>
+        </mat-form-field>
+        <img src="/assets/send.svg" (click)="addComment()">
     </div>
     <span *ngIf="onError" class="error ml2">{{onError}}</span>
 </div>

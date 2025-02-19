@@ -3,6 +3,7 @@ package com.openclassrooms.mddapi.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,6 +41,9 @@ public class UserController {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     /**
      * Gets a user by its id.
@@ -140,6 +144,13 @@ public class UserController {
             user.setEmail(UserUpdateDTO.getEmail());
         }
         user.setName(UserUpdateDTO.getUsername());
+        if(UserUpdateDTO.getPassword() != null){
+            if(userService.passwordCheck(email, UserUpdateDTO.getPassword())){
+                user.setPassword(passwordEncoder.encode(UserUpdateDTO.getNewPassword()));
+            }else{
+                throw new IllegalArgumentException("Invalid credentials");
+            }
+        }
         userService.save(userMapper.toUser(user));
         TokenResponseDTO userResponse = new TokenResponseDTO();
         userResponse.setId(user.getId());

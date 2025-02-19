@@ -14,8 +14,8 @@
     <mat-form-field appearance="outline">
         <input matNativeControl placeholder="Titre de l'article" formControlName="title" />
     </mat-form-field>
-    <mat-form-field appearance="outline">
-        <input class="content" matNativeControl placeholder="Contenu de l'article" formControlName="content" />
+    <mat-form-field class="textBox" appearance="outline">
+        <textarea matNativeControl class="content" placeholder="Contenu de l'article" formControlName="content"></textarea>
     </mat-form-field>
     <button mat-stroked-button (click)="submit()">Créer</button>
     <span *ngIf="onError" class="error ml2">{{onError}}</span>

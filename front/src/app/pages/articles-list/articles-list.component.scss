@@ -10,13 +10,15 @@ button {
     margin-top: 30px;
 }
 
-.tri{
+.tri {
     display: flex;
     margin-left: 90%;
-    img{
+
+    img {
         cursor: pointer;
     }
-    h1{
+
+    h1 {
         font-size: x-large;
         padding-top: 15px;
         margin-left: 15px;
@@ -47,6 +49,78 @@ button {
     }
 
     p {
-        margin-left: 2%;
+        margin-left: 10%;
+    }
+}
+
+.info {
+    display: flex;
+}
+
+.none {
+    text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+    .tri {
+        flex-direction: column;
+        align-items: center;
+        margin: 10px 0;
+        text-align: center;
+
+        h1 {
+            font-size: large;
+            margin-bottom: 10px;
+            margin-left: 0;
+        }
+
+        img {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto;
+        }
+    }
+
+    button {
+        width: 50%;
+        margin-left: 25%;
+    }
+
+    .articleList {
+        width: 90%;
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 0 10px;
+    }
+
+    .article {
+        width: 100%;
+        height: auto;
+        padding: 10px;
+        border-radius: 15px;
+
+        h2 {
+            font-size: 1.2rem;
+            margin-left: 5%;
+        }
+
+        .info {
+            flex-direction: column;
+            gap: 5px;
+
+            p {
+                margin-left: 5%;
+            }
+        }
+
+        p {
+            margin-left: 5%;
+            font-size: 0.9rem;
+        }
+    }
+
+    .none {
+        font-size: 1.2rem;
+        margin-top: 20px;
     }
 }

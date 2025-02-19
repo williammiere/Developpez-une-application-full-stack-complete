@@ -10,9 +10,14 @@
             <mat-label>Email</mat-label>
             <input matNativeControl placeholder={{user?.email}} formControlName="email" />
         </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Mot de passe</mat-label>
+            <input matNativeControl type="password" formControlName="newPassword" />
+        </mat-form-field>
         <button mat-stroked-button (click)="submit()">Sauvegarder</button>
         <span *ngIf="onError" class="error ml2">{{onError}}</span>
-        <button mat-flat-button (click)="logOut()" style="background-color: white; border: none; color: red;">Se déconnecter</button>
+        <button mat-flat-button (click)="logOut()" style="background-color: white; border: none; color: red;">Se
+            déconnecter</button>
     </div>
     <div class="content">
         <hr>
@@ -24,6 +29,18 @@
             <p>{{ theme.description }}</p>
             <button mat-stroked-button (click)="unsubscribe(theme)">Se désabonner</button>
         </div>
-        <h1 *ngIf="themes?.length === 0">Aucun thème</h1>
+    </div>
+    <h1 class="none" *ngIf="themes?.length === 0">Aucun thème</h1>
+</div>
+
+<div class="passPopup" *ngIf="passPopup">
+    <div class="modal-content">
+        <h1>Changer de mot de passe</h1>
+        <mat-form-field appearance="outline">
+            <mat-label>Mot de passe actuel</mat-label>
+            <input matNativeControl type="password" [(ngModel)]="password" />
+        </mat-form-field>
+        <button mat-stroked-button (click)="valid()">Valider</button>
+        <span *ngIf="onError" class="error ml2">{{onError}}</span>
     </div>
 </div>

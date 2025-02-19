@@ -85,16 +85,16 @@
   }
   
   .comment-input-area {
+    width: 100%;
     display: flex;
     gap: 10px;
+    img{
+      cursor: pointer;
+    }
   }
   
-  .comment-input-area textarea {
-    flex-grow: 1;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    resize: none;
+  .comment-input-area .input {
+    width: 100%;
   }
   
   .comment-input-area button {

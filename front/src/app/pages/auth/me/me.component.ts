@@ -24,8 +24,10 @@ export class MeComponent implements OnInit, OnDestroy {
 
   public onError = '';
   public user = this.sessionService.sessionInformation;
-  protected themes: Theme[] = [];
+  public themes: Theme[] = [];
   subscriptions : Subscription[] = [];
+  public passPopup = false;
+  public password = null;
   
     public form = this.fb.group({
       email: [
@@ -41,7 +43,13 @@ export class MeComponent implements OnInit, OnDestroy {
           Validators.required,
           Validators.minLength(3)
         ]
-      ]
+      ],
+      newPassword: [
+        '',
+        [
+          Validators.minLength(8)
+        ]
+      ],
     });
 
   ngOnInit(): void {
@@ -62,18 +70,31 @@ export class MeComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
-    if(this.form.valid) {
-    const updateRequest = this.form.value as UpdateRequest;
-    this.subscriptions.push(this.authService.update(updateRequest).subscribe({
-      next: (response: SessionInformation) => {
-        this.sessionService.update(response);
-        window.location.reload();
-      },
-      error: error => this.onError = error.error,
-    }));
-  }else{
-    this.onError = "Veuillez vérifier les champs, le nom d'utilisateur doit faire au moins 3 caractères et l'email doit être valide"
-  }
+    if (this.form.value.newPassword && this.form.value.newPassword !== '') {
+      const password = this.form.value.newPassword;
+      const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/;
+      if (!pattern.test(password)) {
+        this.onError = 'Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial.';
+        return;
+      }
+      this.passPopup = true;
+    }else{
+      this.valid();
+    }
+}
+
+valid(): void {
+  this.passPopup = false;
+  const updateRequest = this.form.value as UpdateRequest;
+  updateRequest.password = this.password;
+  updateRequest.newPassword = this.form.value.newPassword ? this.form.value.newPassword : null;
+  this.subscriptions.push(this.authService.update(updateRequest).subscribe({
+    next: (response: SessionInformation) => {
+      this.sessionService.update(response);
+      window.location.reload();
+    },
+    error: error => this.onError = error.error,
+  }));
 }
 
 logOut(): void {

@@ -10,4 +10,6 @@ public class UserUpdateDTO {
     private String email;
     @NotBlank
     private String username;
+    private String password;
+    private String newPassword;
 }

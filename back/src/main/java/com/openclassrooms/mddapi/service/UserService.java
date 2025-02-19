@@ -118,4 +118,18 @@ public class UserService {
   public void deleteById(int id) {
     userRepository.deleteById(id);
   }
+
+  /**
+   * Check if the password is correct
+   * @param email the email of the user
+   * @param password the password to check
+   * @return true if the password is correct, false otherwise
+   */
+  public boolean passwordCheck(String email, String password) {
+    User user = userRepository.findByEmail(email);
+    if (!passwordEncoder.matches(password, user.getPassword())) {
+      return false;
+    }
+    return true;
+  }
 }

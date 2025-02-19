@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  
+  menuOpen: boolean = false;
 
   constructor(private router: Router) { }
 
@@ -29,4 +31,7 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/me']);
   }
 
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;
+  }
 }
