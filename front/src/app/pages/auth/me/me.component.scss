@@ -100,6 +100,10 @@ button {
 }
 
 @media screen and (max-width: 768px) {
+  .themeList{
+    grid-template-columns: 1fr;
+    justify-content: center;
+  }
   .themes{
     button{
       width: 80%;

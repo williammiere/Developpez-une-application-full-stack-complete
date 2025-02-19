@@ -30,11 +30,23 @@ button {
     }
 
     p {
-        margin-left: 2%;
+        margin-left: 10%;
     }
 
     button {
         margin-left: auto;
         margin-right: auto;
       }
+}
+
+@media screen and (max-width: 768px) {
+    .themeList{
+        grid-template-columns: 1fr;
+        justify-content: center;
+    }
+    .themes{
+        button{
+            width: 80%;
+        }
+    }
 }
