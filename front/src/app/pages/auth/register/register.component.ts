@@ -76,7 +76,7 @@ export class RegisterComponent implements OnDestroy {
         },
       });
     } else {
-      this.onError = 'Veuillez remplir tous les champs';
+      this.onError = 'Veuillez remplir tous les champs. Aussi, Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial.';
     }
   }
 
