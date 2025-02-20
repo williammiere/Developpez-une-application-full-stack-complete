@@ -41,6 +41,7 @@
             <input matNativeControl type="password" [(ngModel)]="password" />
         </mat-form-field>
         <button mat-stroked-button (click)="valid()">Valider</button>
+        <button class="cancel" mat-stroked-button (click)="cancel()">Annuler</button>
         <span *ngIf="onError" class="error ml2">{{onError}}</span>
     </div>
 </div>

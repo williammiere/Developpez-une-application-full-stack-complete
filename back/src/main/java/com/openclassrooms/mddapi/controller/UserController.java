@@ -26,7 +26,7 @@ import jakarta.validation.Valid;
 
 /**
  * The User controller.
- * 
+ *
  * @version 1.0
  */
 @RestController
@@ -137,27 +137,27 @@ public class UserController {
             @Valid @RequestBody UserUpdateDTO UserUpdateDTO) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         UserDTO user = userMapper.toUserDTO(userService.findByEmail(email));
-        if(!UserUpdateDTO.getEmail().equals(user.getEmail())) {
-            if(userService.findByEmail(UserUpdateDTO.getEmail()) != null) {
-                throw new IllegalArgumentException("Email already exists");
+        if (UserUpdateDTO.getPassword() != null) {
+            if (userService.passwordCheck(email, UserUpdateDTO.getPassword())) {
+                if (!UserUpdateDTO.getEmail().equals(user.getEmail())) {
+                    if (userService.findByEmail(UserUpdateDTO.getEmail()) != null) {
+                        throw new IllegalArgumentException("L'email existe déjà");
+                    }
+                    user.setEmail(UserUpdateDTO.getEmail());
+                }
+                user.setName(UserUpdateDTO.getUsername());
+                if (UserUpdateDTO.getNewPassword() != null) {
+                    user.setPassword(passwordEncoder.encode(UserUpdateDTO.getNewPassword()));
+                }
+                userService.save(userMapper.toUser(user));
+                TokenResponseDTO userResponse = new TokenResponseDTO();
+                userResponse.setId(user.getId());
+                userResponse.setEmail(user.getEmail());
+                userResponse.setUsername(user.getName());
+                userResponse.setToken(jwtService.generateToken(user.getEmail()));
+                return ResponseEntity.ok(userResponse);
             }
-            user.setEmail(UserUpdateDTO.getEmail());
         }
-        user.setName(UserUpdateDTO.getUsername());
-        if(UserUpdateDTO.getPassword() != null){
-            if(userService.passwordCheck(email, UserUpdateDTO.getPassword())){
-                user.setPassword(passwordEncoder.encode(UserUpdateDTO.getNewPassword()));
-            }else{
-                throw new IllegalArgumentException("Invalid credentials");
-            }
-        }
-        userService.save(userMapper.toUser(user));
-        TokenResponseDTO userResponse = new TokenResponseDTO();
-        userResponse.setId(user.getId());
-        userResponse.setEmail(user.getEmail());
-        userResponse.setUsername(user.getName());
-        userResponse.setToken(jwtService.generateToken(user.getEmail()));
-        return ResponseEntity.ok(userResponse);
+        throw new IllegalArgumentException("Mot de passe incorrect");
     }
-
 }

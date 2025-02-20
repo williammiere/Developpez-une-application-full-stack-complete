@@ -17,40 +17,40 @@ import { ThemeService } from 'src/app/services/theme.service';
 export class MeComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
-      private fb: FormBuilder,
-      private authService: AuthService,
-      private sessionService: SessionService,
-      private themeService: ThemeService) { }
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private sessionService: SessionService,
+    private themeService: ThemeService) { }
 
   public onError = '';
   public user = this.sessionService.sessionInformation;
   public themes: Theme[] = [];
-  subscriptions : Subscription[] = [];
+  subscriptions: Subscription[] = [];
   public passPopup = false;
   public password = null;
-  
-    public form = this.fb.group({
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.email
-        ]
-      ],
-      username: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(3)
-        ]
-      ],
-      newPassword: [
-        '',
-        [
-          Validators.minLength(8)
-        ]
-      ],
-    });
+
+  public form = this.fb.group({
+    email: [
+      '',
+      [
+        Validators.required,
+        Validators.email
+      ]
+    ],
+    username: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(3)
+      ]
+    ],
+    newPassword: [
+      '',
+      [
+        Validators.minLength(8)
+      ]
+    ],
+  });
 
   ngOnInit(): void {
     this.form.patchValue(this.user ?? {}); // We fill the form with the user information
@@ -70,39 +70,45 @@ export class MeComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
-    if (this.form.value.newPassword && this.form.value.newPassword !== '') {
-      const password = this.form.value.newPassword;
-      const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/; // We check if the password contains at least one lowercase, one uppercase, one number and one special character
-      if (!pattern.test(password)) {
-        this.onError = 'Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial.';
-        return;
+    if (this.form.valid) {
+      if (this.form.value.newPassword && this.form.value.newPassword !== '') {
+        const password = this.form.value.newPassword;
+        const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/; // We check if the password contains at least one lowercase, one uppercase, one number and one special character
+        if (!pattern.test(password)) {
+          this.onError = 'Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial.';
+          return;
+        }
       }
       this.passPopup = true;
     }else{
-      this.valid();
+      this.onError = 'Le nom d\'utilisateur doit contenir au moins 3 caractères et l\'email doit être valide.';
     }
-}
+  }
 
-valid(): void {
-  this.passPopup = false;
-  const updateRequest = this.form.value as UpdateRequest;
-  updateRequest.password = this.password;
-  updateRequest.newPassword = this.form.value.newPassword ? this.form.value.newPassword : null; // We check if the new password is empty
-  this.subscriptions.push(this.authService.update(updateRequest).subscribe({ // We update the user
-    next: (response: SessionInformation) => {
-      this.sessionService.update(response);
-      window.location.reload();
-    },
-    error: error => this.onError = error.error,
-  }));
-}
+  valid(): void {
+    this.passPopup = false;
+    const updateRequest = this.form.value as UpdateRequest;
+    updateRequest.password = this.password;
+    updateRequest.newPassword = this.form.value.newPassword ? this.form.value.newPassword : null; // We check if the new password is empty
+    this.subscriptions.push(this.authService.update(updateRequest).subscribe({ // We update the user
+      next: (response: SessionInformation) => {
+        this.sessionService.update(response);
+        window.location.reload();
+      },
+      error: error => this.onError = error.error,
+    }));
+  }
 
-logOut(): void {
-  this.sessionService.logOut();
-  this.router.navigate(['/']);
-}
+  cancel(): void {
+    this.passPopup = false;
+  }
 
- unsubscribe(theme: Theme): void {
+  logOut(): void {
+    this.sessionService.logOut();
+    this.router.navigate(['/']);
+  }
+
+  unsubscribe(theme: Theme): void {
     this.subscriptions.push(this.themeService.unsubscribe(theme.id).subscribe(() => {
       window.location.reload();
     }));

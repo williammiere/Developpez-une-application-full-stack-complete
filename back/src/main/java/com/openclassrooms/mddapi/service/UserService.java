@@ -40,7 +40,7 @@ public class UserService {
     User existingEmail = userRepository.findByEmail(email);
 
     if (existingEmail != null) {
-      throw new IllegalArgumentException("Email already exists");
+      throw new IllegalArgumentException("L'email existe déjà");
     }
 
     User user = new User();
@@ -69,11 +69,11 @@ public class UserService {
     User user = userRepository.findByEmail(email);
 
     if(user == null) {
-      throw new IllegalArgumentException("User not found");
+      throw new IllegalArgumentException("Utilisateur non trouvé");
     }
 
     if (!passwordEncoder.matches(password, user.getPassword())) {
-      throw new IllegalArgumentException("Invalid credentials");
+      throw new IllegalArgumentException("Identifiants invalides");
     }
 
     UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
@@ -99,7 +99,7 @@ public class UserService {
    * @return the user
    */
   public User findById(int id) {
-    return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
+    return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Utilisateur non trouvé"));
   }
 
   /**

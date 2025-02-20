@@ -12,9 +12,9 @@ import { Subscription } from 'rxjs';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnDestroy{
+export class LoginComponent implements OnDestroy {
   public onError = '';
-  subscription! : Subscription;
+  subscription!: Subscription;
   public form = this.fb.group({
     email: [
       '',
@@ -35,10 +35,9 @@ export class LoginComponent implements OnDestroy{
   constructor(private router: Router,
     private fb: FormBuilder,
     private authService: AuthService,
-    private sessionService: SessionService)
- {}
+    private sessionService: SessionService) { }
   ngOnDestroy(): void {
-    if(this.subscription){
+    if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
@@ -48,14 +47,17 @@ export class LoginComponent implements OnDestroy{
   }
 
   submit(): void {
-    const loginRequest = this.form.value as LoginRequest; // We get the form values
-    this.subscription = this.authService.login(loginRequest).subscribe({
-      next: (response: SessionInformation) => {
-        this.sessionService.logIn(response);
-        this.router.navigate(['/me']);
-      },
-      error: error => this.onError = error.error,
-    });
+    if (this.form.valid) {
+      const loginRequest = this.form.value as LoginRequest; // We get the form values
+      this.subscription = this.authService.login(loginRequest).subscribe({
+        next: (response: SessionInformation) => {
+          this.sessionService.logIn(response);
+          this.router.navigate(['/me']);
+        },
+        error: error => this.onError = error.error,
+      });
+    } else {
+      this.onError = 'Veuillez remplir correctement tous les champs';
+    }
   }
-
 }
