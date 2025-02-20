@@ -22,7 +22,7 @@ Use the Spring Boot Dashboard to launch the application.
 
 Install and lauch MySQL 8.4 Configurator and set-up a new database.
 
-In the MySQL Command line Client, type "source <pathToYourScript>\script.sql
+In the MySQL Command line Client, type "source <pathToYourScript>\script.sql"
 
 Configure application.properties in src/main/java/resources if needed.
 
