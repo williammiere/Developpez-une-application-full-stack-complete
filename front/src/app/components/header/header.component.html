@@ -4,9 +4,9 @@
     </div>
   
     <div class="nav-desktop">
-      <button mat-flat-button (click)="articles()">Articles</button>
-      <button mat-flat-button (click)="themes()">Thèmes</button>
-      <img src="/assets/account_circle.svg" alt="user" (click)="me()"/>
+      <button mat-flat-button (click)="articles()" [ngClass]="{'active': activeRoute === '/articles'}">Articles</button>
+      <button mat-flat-button (click)="themes()" [ngClass]="{'active': activeRoute === '/themes'}">Thèmes</button>
+      <img src="/assets/account_circle.svg" alt="user" (click)="me()" [ngClass]="{'active': activeRoute === '/me'}"/>
     </div>
   
     <div class="nav-mobile">
@@ -16,9 +16,9 @@
         </button>
       </button>
       <div class="radial-menu" *ngIf="menuOpen">
-        <button mat-flat-button (click)="articles(); toggleMenu()">Articles</button>
-        <button mat-flat-button (click)="themes(); toggleMenu()">Thèmes</button>
-        <img src="/assets/account_circle.svg" alt="user" (click)="me()"/>
+        <button mat-flat-button (click)="articles(); toggleMenu()" [ngClass]="{'active': activeRoute === '/articles'}">Articles</button>
+        <button mat-flat-button (click)="themes(); toggleMenu()" [ngClass]="{'active': activeRoute === '/themes'}">Thèmes</button>
+        <img src="/assets/account_circle.svg" alt="user" (click)="me()" [ngClass]="{'active': activeRoute === '/me'}"/>
       </div>
     </div>
   </div>

@@ -28,6 +28,7 @@
     img {
       vertical-align: middle;
       width: 50px;
+      border-radius: 5px;
       cursor: pointer;
     }
   }
@@ -63,6 +64,10 @@
             width: 80%;
         }
     }
+}
+
+.active {
+  background-color: rgba(169, 103, 255, 0.212);
 }
 
   @media screen and (max-width: 768px) {
